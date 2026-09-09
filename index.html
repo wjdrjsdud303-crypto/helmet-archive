@@ -14,6 +14,8 @@
     --accent-soft:#F3E1C8;
     --accent2:#2B6CB0;
     --accent2-soft:#DCE9F7;
+    --video-fg:#6B3FA0;
+    --video-bg:#EDE1F7;
     --shadow: 0 1px 2px rgba(20,24,31,.06), 0 8px 24px -12px rgba(20,24,31,.12);
   }
   @media (prefers-color-scheme: dark){
@@ -30,6 +32,8 @@
       --accent-soft:#3A2E17;
       --accent2:#6FA8E0;
       --accent2-soft:#1C2E42;
+      --video-fg:#B48EE0;
+      --video-bg:rgba(160,120,224,.16);
       --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
     }
   }
@@ -46,6 +50,8 @@
     --accent-soft:#3A2E17;
     --accent2:#6FA8E0;
     --accent2-soft:#1C2E42;
+    --video-fg:#B48EE0;
+    --video-bg:rgba(160,120,224,.16);
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
   }
 
@@ -162,6 +168,7 @@
   .entry-bar{background:var(--text-faint);border-radius:2px;}
   .entry[data-category="product"] .entry-bar{background:var(--accent2);}
   .entry[data-category="tech"] .entry-bar{background:var(--accent);}
+  .entry[data-category="video"] .entry-bar{background:var(--video-fg);}
 
   .entry-body{display:flex;flex-direction:column;gap:5px;min-width:0;}
   .entry-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
@@ -176,6 +183,7 @@
   }
   .tag.product{background:var(--accent2-soft);color:var(--accent2);}
   .tag.tech{background:var(--accent-soft);color:var(--accent);}
+  .tag.video{background:var(--video-bg);color:var(--video-fg);}
 
   .brand{font-weight:700;font-size:13.5px;color:var(--text);}
   .date{
@@ -387,18 +395,20 @@
     <span class="eyebrow">HELMET DESIGN &amp; TECH ARCHIVE — MOTORCYCLE</span>
     <h1>오토바이 헬멧 디자인 기술 동향</h1>
     <div class="stat-row">
-      <div class="stat"><span class="n" id="stat-total">124</span><span class="l">누적 항목</span></div>
-      <div class="stat"><span class="n" id="stat-updated">2026-09-08</span><span class="l">최종 갱신</span></div>
+      <div class="stat"><span class="n" id="stat-total">129</span><span class="l">누적 항목</span></div>
+      <div class="stat"><span class="n" id="stat-updated">2026-09-09</span><span class="l">최종 갱신</span></div>
     </div>
     <div class="legend">
       <span class="item"><span class="dot" style="background:var(--accent)"></span>업계동향 — 브랜드 특정이 아닌 규제·인증·시장·소재 동향, 최신순 정렬</span>
       <span class="item"><span class="dot" style="background:var(--dd-shoei)"></span>브랜드별 이슈정리 — 7개 핵심 브랜드 딥다이브 + 신제품·뉴스, 브랜드 서브탭으로 구분</span>
+      <span class="item"><span class="dot" style="background:var(--video-fg)"></span>영상 리뷰 — 유튜브·빌리빌리 채널의 헬멧 테스트·리뷰 영상, 채널별 최신순</span>
     </div>
   </header>
 
   <div class="tabs" role="tablist">
     <button class="tab-btn active" data-tab="trends" role="tab" aria-selected="true">업계동향 <span class="n" id="tab-count-trends">15</span></button>
     <button class="tab-btn" data-tab="brands" role="tab" aria-selected="false">브랜드별 이슈정리 <span class="n" id="tab-count-brands">109</span></button>
+    <button class="tab-btn" data-tab="videos" role="tab" aria-selected="false">영상 리뷰 <span class="n" id="tab-count-videos">5</span></button>
   </div>
 
     <section class="tab-panel entries-card" id="tab-trends" data-tab-panel="trends">
@@ -1863,8 +1873,86 @@
 
   </section>
 
+<section class="tab-panel entries-card" id="tab-videos" data-tab-panel="videos" hidden>
+    <div class="block-head">
+      <h2>영상 리뷰 (유튜브·빌리빌리)</h2>
+      <span class="count" id="videos-count">5건 · 채널별 · 날짜순</span>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">小丙摩托车评中心 (Bilibili) <span class="count">1</span></h3>
+    <article class="entry" data-category="video" data-date="2026-07-01" data-brand="小丙摩托车评中心">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag video">영상</span><span class="brand">小丙摩托车评中心 (Bilibili)</span><span class="date">2026-07</span></div>
+        <h3>2026년 7월 최신 헬멧 구매 가이드 — SHOEI·LS2·GSB 3사 비교</h3>
+        <p class="desc">중국 헬멧 리뷰 채널 小丙摩托车评中心(구독자 72.7만)이 SHOEI·LS2·GSB 3개 브랜드 헬멧을 나란히 비교. 중국 3C 인증과 ECE 인증 이중 획득 여부, EPS 내장재 구성을 배달·통근용 라이더 관점에서 짚었다.</p>
+        <a class="src" href="https://www.bilibili.com/video/BV1fgTR6zEvR/" target="_blank" rel="noopener">bilibili.com →</a>
+      </div>
+    </article>
+
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">HelmexpressTV (YouTube) <span class="count">1</span></h3>
+    <article class="entry" data-category="video" data-date="2026-05-26" data-brand="HelmexpressTV">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag video">영상</span><span class="brand">HelmexpressTV (YouTube)</span><span class="date">2026-05-26</span></div>
+        <h3>"Neue Helme 2026 | Teil 1" — 2026년형 신제품 헬멧 5종 소개</h3>
+        <p class="desc">독일 헬멧 전문 리테일러 채널 HelmexpressTV가 2026년 새로 출시된 헬멧 5종을 소개하는 시리즈 1편. 가격대별 특징과 실제 착용 인상을 다뤘다.</p>
+        <a class="src" href="https://www.youtube.com/watch?v=ACSadRNDP9Y" target="_blank" rel="noopener">youtube.com →</a>
+      </div>
+    </article>
+
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">MotoBasic (YouTube) <span class="count">1</span></h3>
+    <article class="entry" data-category="video" data-date="2026-03-26" data-brand="MotoBasic">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag video">영상</span><span class="brand">MotoBasic (YouTube)</span><span class="date">2026-03-26</span></div>
+        <h3>모터사이클쇼 2026 — SHOEI·Arai·OGK Kabuto·HJC·WINS 2026년형 신작 헬멧 총정리</h3>
+        <p class="desc">일본 용품 리뷰 채널 MotoBasic이 모터사이클쇼 2026 현장에서 SHOEI·Arai·OGK Kabuto·HJC·WINS 등 주요 브랜드의 2026년형 신작 헬멧을 한 편에 모아 소개.</p>
+        <a class="src" href="https://www.youtube.com/watch?v=PbZ9WmnR0Bg" target="_blank" rel="noopener">youtube.com →</a>
+      </div>
+    </article>
+
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">FortNine (YouTube) <span class="count">1</span></h3>
+    <article class="entry" data-category="video" data-date="2026-01-01" data-brand="FortNine">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag video">영상</span><span class="brand">FortNine (YouTube)</span><span class="date">2026</span></div>
+        <h3>"The Quietest Motorcycle Helmets of 2026" — 소음 저감 헬멧 4종 비교</h3>
+        <p class="desc">캐나다 기어 과학 채널 FortNine이 Schuberth C5·Shoei GT-Air III·Nolan N120-1·Arai Quantum-X 4개 모델을 대상으로 고속 주행 시 풍절음 저감 성능을 비교. 공력·바이저 씰·쉘 형상·넥롤 설계가 소음에 미치는 영향을 분석했다.</p>
+        <a class="src" href="https://fortnine.ca/en/motorcycle/reviews/helmets/best/the-quietest-motorcycle-helmets-of-2026" target="_blank" rel="noopener">fortnine.ca →</a>
+      </div>
+    </article>
+
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">RevZilla (YouTube) <span class="count">1</span></h3>
+    <article class="entry" data-category="video" data-date="2026-01-01" data-brand="RevZilla">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag video">영상</span><span class="brand">RevZilla (YouTube)</span><span class="date">2026</span></div>
+        <h3>2026년 추천 헬멧 5선 — Alpinestars S-R7·Scorpion EXO-R1 Air Carbon 등</h3>
+        <p class="desc">미국 공식 리테일러 채널 RevZilla가 2026년 추천 헬멧 리스트를 영상·기사로 공개. Alpinestars S-R7(에코퓨어 항균 내장재, 탈부착 관자놀이 패드), Scorpion EXO-R1 Air Carbon(경량 카본 셸, 레이스 스포일러) 등을 실제 라이딩 기준으로 선정했다.</p>
+        <a class="src" href="https://www.revzilla.com/common-tread/five-of-our-favorite-motorcycle-helmets-for-2026" target="_blank" rel="noopener">revzilla.com →</a>
+      </div>
+    </article>
+
+    </div>
+
+  </section>
+
 <footer>
-    <p>이 아카이브는 매일 자동 검색으로 갱신됩니다. "업계동향"·"브랜드별 이슈정리" 탭에 새 항목이 날짜순으로 계속 추가되며 기존 항목은 삭제되지 않습니다 · 최초 백필: 2026-08-11 · 탭 구조 개편: 2026-09-08 · 2탭 + 브랜드 서브탭 통합 개편: 2026-09-08</p>
+    <p>이 아카이브는 매일 자동 검색으로 갱신됩니다. "업계동향"·"브랜드별 이슈정리"·"영상 리뷰" 탭에 새 항목이 날짜순으로 계속 추가되며 기존 항목은 삭제되지 않습니다 · 최초 백필: 2026-08-11 · 탭 구조 개편: 2026-09-08 · 2탭 + 브랜드 서브탭 통합 개편: 2026-09-08 · 영상 리뷰 탭 추가: 2026-09-09</p>
     <p><b>브랜드별 이슈정리 방법론 —</b> Shoei·Arai·AGV·Bell·HJC·Schuberth·Alpinestars 7개 브랜드는 공식 제조사 홈페이지를 1차 출처로 직접 방문·분석하고, 접근이 막히거나 발행일이 불명확한 경우 RevZilla·Cycle News·RideApart·Ultimate Motorcycling·Motorcyclenews.com·Visordown·FIM 공식 발표 등 업계 매체로 교차 검증합니다. 공식 사이트 접근이 어려웠거나 날짜별 뉴스 아카이브가 없는 브랜드는 해당 섹션에 커버리지 노트로 명시했습니다. 그 외 브랜드의 신제품·뉴스는 보유 항목 수에 따라 개별 서브탭 또는 "기타 브랜드" 서브탭으로 분류했습니다 · Alpinestars 추가: 2026-09-08 · 브랜드별 이슈정리 통합(신제품·기사·심층분석 병합): 2026-09-08</p>
   </footer>
 </div>
@@ -1874,7 +1962,8 @@
   var btns = document.querySelectorAll('.tab-btn');
   var panels = {
     trends: document.getElementById('tab-trends'),
-    brands: document.getElementById('tab-brands')
+    brands: document.getElementById('tab-brands'),
+    videos: document.getElementById('tab-videos')
   };
   btns.forEach(function(btn){
     btn.addEventListener('click', function(){
