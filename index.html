@@ -1,0 +1,1912 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+<title>오토바이 헬멧 디자인 기술 동향</title>
+<style>
+  :root{
+    --bg-page:#F2F4F6;
+    --bg-surface:#FFFFFF;
+    --bg-surface-2:#E7EBEF;
+    --text:#1A2029;
+    --text-muted:#5C6672;
+    --text-faint:#8892A0;
+    --border:#DCE1E7;
+    --border-strong:#C4CBD3;
+    --accent:#B8721A;
+    --accent-soft:#F3E1C8;
+    --accent2:#2B6CB0;
+    --accent2-soft:#DCE9F7;
+    --shadow: 0 1px 2px rgba(20,24,31,.06), 0 8px 24px -12px rgba(20,24,31,.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg-page:#12161D;
+      --bg-surface:#1A202A;
+      --bg-surface-2:#212834;
+      --text:#E7EAEE;
+      --text-muted:#98A2AF;
+      --text-faint:#6B7480;
+      --border:#2B323E;
+      --border-strong:#3A4250;
+      --accent:#E0A54B;
+      --accent-soft:#3A2E17;
+      --accent2:#6FA8E0;
+      --accent2-soft:#1C2E42;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg-page:#12161D;
+    --bg-surface:#1A202A;
+    --bg-surface-2:#212834;
+    --text:#E7EAEE;
+    --text-muted:#98A2AF;
+    --text-faint:#6B7480;
+    --border:#2B323E;
+    --border-strong:#3A4250;
+    --accent:#E0A54B;
+    --accent-soft:#3A2E17;
+    --accent2:#6FA8E0;
+    --accent2-soft:#1C2E42;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg-page);
+    color:var(--text);
+    font-family:'Segoe UI', system-ui, -apple-system, 'Noto Sans KR', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:28px 20px 80px;}
+
+  h1,h2,h3{
+    font-family:'Bahnschrift','Arial Narrow',sans-serif;
+    font-weight:700;
+    text-wrap:balance;
+    margin:0;
+    letter-spacing:.2px;
+  }
+
+  header.top{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    padding-bottom:22px;
+    border-bottom:2px solid var(--border-strong);
+    margin-bottom:26px;
+  }
+  .eyebrow{
+    font-family:'Consolas', ui-monospace, 'SFMono-Regular', monospace;
+    font-size:12.5px;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+  }
+  h1{font-size:clamp(26px,4vw,34px);}
+  .lede{color:var(--text-muted);font-size:15px;max-width:62ch;}
+
+  .stat-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:4px;
+  }
+  .stat{
+    background:var(--bg-surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    min-width:108px;
+  }
+  .stat .n{
+    font-family:'Consolas', ui-monospace, monospace;
+    font-variant-numeric:tabular-nums;
+    font-size:20px;
+    font-weight:700;
+    color:var(--text);
+  }
+  .stat .l{font-size:11.5px;color:var(--text-muted);letter-spacing:.03em;}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;}
+  .legend .item{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--text-muted);}
+  .legend .dot{width:9px;height:9px;border-radius:2px;display:inline-block;}
+
+  section.block{margin-bottom:34px;}
+  .block-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:12px;
+  }
+  .block-head h2{font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);}
+  .block-head .count{
+    font-family:'Consolas', ui-monospace, monospace;
+    font-size:12px;
+    color:var(--text-faint);
+    font-variant-numeric:tabular-nums;
+  }
+
+  #latest-updates, .entries-card{
+    background:var(--bg-surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px 18px 6px;
+    box-shadow:var(--shadow);
+  }
+  #latest-updates .block-head, .entries-card .block-head{padding:0 2px;}
+
+  .entry{
+    display:grid;
+    grid-template-columns:5px 1fr;
+    gap:14px;
+    padding:14px 2px;
+    border-top:1px solid var(--border);
+  }
+  #latest-updates .entry:first-of-type, .entries-card .entry:first-of-type{border-top:none;}
+  .year-block .entry{
+    background:var(--bg-surface);
+    border:1px solid var(--border);
+    border-top:1px solid var(--border);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:8px;
+  }
+  .year-block .entry-bar{border-radius:4px;}
+
+  .entry-bar{background:var(--text-faint);border-radius:2px;}
+  .entry[data-category="product"] .entry-bar{background:var(--accent2);}
+  .entry[data-category="tech"] .entry-bar{background:var(--accent);}
+
+  .entry-body{display:flex;flex-direction:column;gap:5px;min-width:0;}
+  .entry-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+
+  .tag{
+    font-family:'Consolas', ui-monospace, monospace;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.02em;
+    padding:2px 8px;
+    border-radius:999px;
+  }
+  .tag.product{background:var(--accent2-soft);color:var(--accent2);}
+  .tag.tech{background:var(--accent-soft);color:var(--accent);}
+
+  .brand{font-weight:700;font-size:13.5px;color:var(--text);}
+  .date{
+    font-family:'Consolas', ui-monospace, monospace;
+    font-size:11.5px;
+    color:var(--text-faint);
+    font-variant-numeric:tabular-nums;
+    margin-left:auto;
+  }
+  .entry h3{font-family:'Segoe UI',system-ui,sans-serif;font-size:15px;font-weight:600;margin-top:1px;}
+  .entry .desc{font-size:13.5px;color:var(--text-muted);}
+  .entry .spec{
+    font-family:'Consolas', ui-monospace, monospace;
+    font-size:12px;
+    color:var(--text-faint);
+  }
+  .entry a.src{
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--accent2);
+    background:var(--accent2-soft);
+    text-decoration:none;
+    width:fit-content;
+    padding:3px 9px;
+    border-radius:999px;
+  }
+  .entry a.src:hover{text-decoration:underline;}
+  .entry a.src:focus-visible, a:focus-visible{outline:2px solid var(--accent2);outline-offset:2px;border-radius:3px;}
+
+  .empty-state{
+    color:var(--text-muted);
+    font-size:13.5px;
+    padding:18px 4px;
+  }
+
+  .year-block h2{
+    font-family:'Bahnschrift','Arial Narrow',sans-serif;
+    font-size:22px;
+    color:var(--text);
+    text-transform:none;
+    letter-spacing:0;
+  }
+  .year-block .block-head{align-items:center;border-bottom:1px solid var(--border);padding-bottom:8px;}
+
+  footer{
+    margin-top:40px;
+    padding-top:16px;
+    border-top:1px solid var(--border);
+    font-size:12px;
+    color:var(--text-faint);
+  }
+
+  @media (max-width:600px){
+    .date{margin-left:0;}
+  }
+
+  /* ---- 심층 브랜드 분석 (deep-dive) ---- */
+  :root{
+    --dd-shoei:#4A6FA5; --dd-arai:#4B7355; --dd-agv:#A23B3B; --dd-bell:#33507A; --dd-hjc:#3B7A7A; --dd-schuberth:#6B5B7A; --dd-alpinestars:#A2652E;
+    --dd-safety-bg:#F3E1C8; --dd-safety-fg:#8F5900;
+    --dd-material-bg:#DCE9F7; --dd-material-fg:#3E6FA6;
+    --dd-elec-bg:#E1F1EE; --dd-elec-fg:#2E7D74;
+    --dd-warn-bg:#FBE7DF; --dd-warn-fg:#B5502E;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --dd-shoei:#8FADDD; --dd-arai:#8FBB9C; --dd-agv:#DD9494; --dd-bell:#8CA3D6; --dd-hjc:#7DC6C6; --dd-schuberth:#B6A2C7; --dd-alpinestars:#E0A876;
+      --dd-safety-bg:#3A2E17; --dd-safety-fg:#E0A54B;
+      --dd-material-bg:#1C2E42; --dd-material-fg:#7FAEDE;
+      --dd-elec-bg:rgba(111,197,184,.16); --dd-elec-fg:#6FC5B8;
+      --dd-warn-bg:rgba(224,138,102,.16); --dd-warn-fg:#E08A66;
+    }
+  }
+  :root[data-theme="dark"]{
+    --dd-shoei:#8FADDD; --dd-arai:#8FBB9C; --dd-agv:#DD9494; --dd-bell:#8CA3D6; --dd-hjc:#7DC6C6; --dd-schuberth:#B6A2C7; --dd-alpinestars:#E0A876;
+    --dd-safety-bg:#3A2E17; --dd-safety-fg:#E0A54B;
+    --dd-material-bg:#1C2E42; --dd-material-fg:#7FAEDE;
+    --dd-elec-bg:rgba(111,197,184,.16); --dd-elec-fg:#6FC5B8;
+    --dd-warn-bg:rgba(224,138,102,.16); --dd-warn-fg:#E08A66;
+  }
+  .dd-lede{color:var(--text-muted);font-size:13.5px;margin:-4px 0 18px;max-width:70ch;}
+  .dd-brand{padding:26px 0;border-top:1px solid var(--border);}
+  .dd-brand:first-child{border-top:none;padding-top:0;}
+  .dd-brand-head{display:flex;align-items:baseline;gap:12px;margin-bottom:2px;flex-wrap:wrap;}
+  .dd-dot{width:11px;height:11px;border-radius:3px;flex:none;background:var(--dd-dot,var(--text-faint));}
+  .dd-brand-head h3{font-family:'Bahnschrift','Arial Narrow',sans-serif;font-size:20px;letter-spacing:0;}
+  .dd-brand-head .count{font-family:'Consolas',ui-monospace,monospace;font-size:12px;color:var(--text-faint);font-variant-numeric:tabular-nums;}
+  .dd-entries{display:grid;gap:2px;margin-top:12px;}
+  .dd-entry{display:grid;grid-template-columns:126px 1fr;gap:16px;padding:12px 6px;border-radius:8px;}
+  .dd-entry:hover{background:var(--bg-surface);}
+  .dd-entry time{font-family:'Consolas',ui-monospace,monospace;font-size:11.5px;color:var(--text-faint);padding-top:2px;line-height:1.5;}
+  .dd-entry h4{font-family:'Segoe UI',system-ui,sans-serif;font-size:14.5px;font-weight:600;margin:0 0 5px;}
+  .dd-entry p{font-size:13px;line-height:1.6;color:var(--text-muted);margin:0 0 7px;max-width:66ch;}
+  .dd-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px;}
+  .dd-tag{font-family:'Consolas',ui-monospace,monospace;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:4px;white-space:nowrap;}
+  .dd-tag.safety{background:var(--dd-safety-bg);color:var(--dd-safety-fg);}
+  .dd-tag.material{background:var(--dd-material-bg);color:var(--dd-material-fg);}
+  .dd-tag.elec{background:var(--dd-elec-bg);color:var(--dd-elec-fg);}
+  .dd-sources{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;}
+  .dd-sources a{color:var(--accent2);font-weight:700;background:var(--accent2-soft);text-decoration:none;padding:3px 9px;border-radius:999px;}
+  .dd-sources a:hover{text-decoration:underline;}
+  .dd-coverage-note{display:flex;gap:8px;background:var(--dd-warn-bg);color:var(--dd-warn-fg);border-radius:8px;padding:10px 14px;font-size:12.5px;line-height:1.55;margin:10px 0 4px;}
+  .dd-trends{margin-top:12px;padding:24px 20px;background:var(--bg-surface-2);border-radius:14px;}
+  .dd-trends h3{font-family:'Bahnschrift','Arial Narrow',sans-serif;font-size:19px;}
+  .dd-trend-list{display:grid;gap:16px;margin-top:14px;}
+  .dd-trend{display:grid;grid-template-columns:34px 1fr;gap:12px;}
+  .dd-trend .num{font-family:'Consolas',ui-monospace,monospace;font-weight:700;font-size:18px;color:var(--accent);}
+  .dd-trend h4{font-size:14px;font-weight:600;margin:0 0 4px;}
+  .dd-trend p{font-size:13px;line-height:1.6;color:var(--text-muted);margin:0;max-width:70ch;}
+  .dd-trend .dd-src{font-size:11.5px;color:var(--text-faint);margin-left:4px;}
+  .dd-secondary{margin-top:26px;}
+  .dd-secondary h3{font-family:'Bahnschrift','Arial Narrow',sans-serif;font-size:17px;margin-bottom:4px;}
+  .dd-secondary-lede{color:var(--text-muted);font-size:12.5px;margin:0 0 12px;}
+  .dd-secondary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+  .dd-sec-card{border:1px solid var(--border);border-radius:10px;padding:14px;background:var(--bg-surface);}
+  .dd-sec-card h4{font-size:13.5px;margin:0 0 6px;}
+  .dd-sec-card p{font-size:12.5px;line-height:1.55;color:var(--text-muted);margin:0 0 6px;}
+  .dd-sec-card.gap{opacity:.7;border-style:dashed;}
+  .dd-sec-card a{font-size:11.5px;color:var(--accent2);text-decoration:none;}
+  .dd-sec-card a:hover{text-decoration:underline;}
+  @media (max-width:600px){
+    .dd-entry{grid-template-columns:1fr;gap:6px;}
+    .dd-entry time{padding-top:0;}
+  }
+
+  /* ---- tabs ---- */
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px;border-bottom:1px solid var(--border);padding-bottom:0;}
+  .tab-btn{
+    font-family:'Bahnschrift','Arial Narrow',sans-serif;
+    font-size:14px;
+    font-weight:700;
+    color:var(--text-muted);
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:10px 4px 12px;
+    margin-bottom:-1px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .tab-btn .n{
+    font-family:'Consolas',ui-monospace,monospace;
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--text-faint);
+    background:var(--bg-surface-2);
+    border-radius:999px;
+    padding:1px 7px;
+  }
+  .tab-btn:hover{color:var(--text);}
+  .tab-btn.active{color:var(--text);border-bottom-color:var(--accent);}
+  .tab-btn.active .n{color:var(--accent);background:var(--accent-soft);}
+  .tab-panel[hidden]{display:none!important;}
+
+  .brand-group{padding:16px 0;border-top:1px solid var(--border);}
+  .brand-group:first-child{border-top:none;padding-top:0;}
+  .brand-group-head{
+    font-family:'Bahnschrift','Arial Narrow',sans-serif;
+    font-size:15px;
+    font-weight:700;
+    color:var(--text);
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    margin:0 2px 6px;
+  }
+  .brand-group-head .count{
+    font-family:'Consolas', ui-monospace, monospace;
+    font-size:11px;
+    font-weight:700;
+    color:var(--text-faint);
+  }
+
+  /* ---- sub-tabs (브랜드별 이슈정리 내부 서브탭) ---- */
+  .subtabs{display:flex;gap:6px;flex-wrap:wrap;margin:-4px 0 20px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+  .subtab-btn{
+    font-family:'Segoe UI',system-ui,sans-serif;
+    font-size:12px;
+    font-weight:600;
+    color:var(--text-muted);
+    background:var(--bg-surface-2);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:5px 12px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .subtab-btn .n{
+    font-family:'Consolas',ui-monospace,monospace;
+    font-size:10.5px;
+    font-weight:700;
+    color:var(--text-faint);
+  }
+  .subtab-btn:hover{color:var(--text);border-color:var(--border-strong);}
+  .subtab-btn.active{color:var(--bg-surface);background:var(--accent);border-color:var(--accent);}
+  .subtab-btn.active .n{color:var(--bg-surface);}
+  .subtab-panel[hidden]{display:none!important;}
+  .dd-mixed{display:grid;gap:2px;margin-top:12px;}
+  .dd-mixed .entry:first-child{border-top:none;}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <span class="eyebrow">HELMET DESIGN &amp; TECH ARCHIVE — MOTORCYCLE</span>
+    <h1>오토바이 헬멧 디자인 기술 동향</h1>
+    <div class="stat-row">
+      <div class="stat"><span class="n" id="stat-total">124</span><span class="l">누적 항목</span></div>
+      <div class="stat"><span class="n" id="stat-updated">2026-09-08</span><span class="l">최종 갱신</span></div>
+    </div>
+    <div class="legend">
+      <span class="item"><span class="dot" style="background:var(--accent)"></span>업계동향 — 브랜드 특정이 아닌 규제·인증·시장·소재 동향, 최신순 정렬</span>
+      <span class="item"><span class="dot" style="background:var(--dd-shoei)"></span>브랜드별 이슈정리 — 7개 핵심 브랜드 딥다이브 + 신제품·뉴스, 브랜드 서브탭으로 구분</span>
+    </div>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="trends" role="tab" aria-selected="true">업계동향 <span class="n" id="tab-count-trends">15</span></button>
+    <button class="tab-btn" data-tab="brands" role="tab" aria-selected="false">브랜드별 이슈정리 <span class="n" id="tab-count-brands">109</span></button>
+  </div>
+
+    <section class="tab-panel entries-card" id="tab-trends" data-tab-panel="trends">
+    <div class="block-head">
+      <h2>업계동향 (규제·인증·시장 동향)</h2>
+      <span class="count" id="trends-count">15건 · 주제별 · 날짜순</span>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">DVSA · TRL <span class="count">1</span></h3>
+    <article class="entry" data-category="tech" data-date="2026-09-04" data-brand="DVSA · TRL">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">DVSA · TRL</span><span class="date">2026-09-04</span></div>
+        <h3>영국 DVSA, TRL과 함께 시판 중인 헬멧 사후 안전성 검증 프로그램 가동</h3>
+        <p class="desc">영국 교통안전청(DVSA)이 UN 규정 22호(현지 법적 안전기준) 준수 여부를 사후 검증하기 위해 TRL(Transport Research Laboratory)을 시장감시 테스트 기관으로 지정, 이미 판매 중인 헬멧을 대상으로 한 독립 검증 프로그램을 가동했다. TRL 워킹엄 시험시설의 트윈와이어 드롭리그로 선형·회전 가속도를 측정하며, 소비자 비교 등급인 SHARP와 달리 법적 최소 기준 충족 여부만 판별하는 규제형 점검이라는 점에서 성격이 다르다.</p>
+        <a class="src" href="https://www.visordown.com/news/dvsa-appoints-trl-test-motorcycle-helmets-sold-uk" target="_blank" rel="noopener">visordown.com →</a>
+      </div>
+    </article>
+
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">FIM · Alpinestars · Bell <span class="count">1</span></h3>
+    <article class="entry" data-category="tech" data-date="2026-01-01" data-brand="FIM · Alpinestars · Bell">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">FIM · Alpinestars · Bell</span><span class="date">2026-01-01</span></div>
+        <h3>FIM 신규 레이싱 헬멧 표준 FRHPhe-02, 2026년부터 국제 경기 의무화</h3>
+        <p class="desc">사선·반구형 앤빌 충격시험으로 회전 충격을 정밀 측정하고 두개골 골절 기준(Skull Fracture Criterion)을 새로 도입한 FIM 2단계 헬멧 인증 규격이 2026년 1월 1일부터 FIM 국제 서킷 경기의 의무 기준으로 적용됨. Alpinestars Supertech M10, Bell Moto-10 GP 등이 신규 인증을 획득.</p>
+        <a class="src" href="https://www.fim-moto.com/en/news/news-detail/article/fim-launches-the-phase-2-of-the-fim-racing-homologation-programme-for-helmets-frhphe-02" target="_blank" rel="noopener">fim-moto.com →</a>
+      </div>
+    </article>
+
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">업계 전반 <span class="count">2</span></h3>
+    <article class="entry" data-category="tech" data-date="2026-01" data-brand="업계 전반">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">업계 전반</span><span class="date">2026-01</span></div>
+        <h3>필드 교체형 에어백 카트리지 · 모듈형 패널 확산</h3>
+        <p class="desc">에어백 베스트/헬멧 연동 시스템이 트리거 후 제조사로 전체 반송하지 않고 현장에서 카트리지·패널만 교체하는 모듈형 구조로 전환되는 추세.</p>
+        <a class="src" href="https://www.bikenrider.com/feature/the-future-of-motorcycle-safety-gear-innovations-to-watch-in-2026" target="_blank" rel="noopener">bikenrider.com →</a>
+      </div>
+    </article>
+
+    <article class="entry" data-category="tech" data-date="2026-01" data-brand="업계 전반">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">업계 전반</span><span class="date">2026-01</span></div>
+        <h3>지능형 아머(Intelligent Armor) 개념 부상</h3>
+        <p class="desc">라이더별 충격 패턴에 맞춰 반응을 조정하는 "지능형 아머", 전기 오토바이 생태계와의 완전 연동, 음성 제어 내비게이션이 차기 트렌드로 언급됨.</p>
+        <a class="src" href="https://www.kaxhelmet.com/blog/future-of-full-face-helmets-innovations-and-trends/" target="_blank" rel="noopener">kaxhelmet.com →</a>
+      </div>
+    </article>
+
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Alpinestars / Dainese <span class="count">1</span></h3>
+    <article class="entry" data-category="tech" data-date="2026-01" data-brand="Alpinestars / Dainese">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Alpinestars · Dainese</span><span class="date">2026-01</span></div>
+        <h3>완전 전자식 자동 트리거 에어백, 대중화 단계 진입</h3>
+        <p class="desc">테더 방식 에어백 베스트가 전자식 자동 트리거 시스템으로 빠르게 대체되며 가격·정교함 모두 개선. 헬멧 연동형 상체 보호 생태계 확장.</p>
+        <a class="src" href="https://www.bikenrider.com/feature/the-future-of-motorcycle-safety-gear-innovations-to-watch-in-2026" target="_blank" rel="noopener">bikenrider.com →</a>
+      </div>
+    </article>
+
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">시장 동향 <span class="count">1</span></h3>
+    <article class="entry" data-category="tech" data-date="2026-01" data-brand="시장 동향">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">시장 동향</span><span class="date">2026-01</span></div>
+        <h3>커넥티드 헬멧 시장, 2035년까지 연평균 18.1% 성장 전망</h3>
+        <p class="desc">글로벌 커넥티드 헬멧 시장 규모 2025년 약 12.2억 달러 → 2035년 약 61.4억 달러 전망. 수동형 보호구에서 능동형 안전 생태계로 전환 가속.</p>
+        <a class="src" href="https://www.insightaceanalytic.com/report/motorcycle-connected-helmet-market/3630" target="_blank" rel="noopener">insightaceanalytic.com →</a>
+      </div>
+    </article>
+
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">규제/인증 <span class="count">2</span></h3>
+    <article class="entry" data-category="tech" data-date="2026-01" data-brand="규제/인증">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">규제·인증</span><span class="date">2026-01</span></div>
+        <h3>인도, 이륜차 구매 시 헬멧 2개 무상 지급 의무화 — BIS 인증 기준 적용</h3>
+        <p class="desc">인도 도로교통부(MoRTH)가 중앙자동차규칙(Central Motor Vehicle Rules) 개정을 통해 신규 이륜차 구매 시 제조사·딜러가 인도표준국(BIS) 인증 헬멧 2개(운전자·동승자용)를 함께 제공하도록 의무화했다. 2025년 6월 초안 발표 이후 2026년 1월 1일부터 시행되며, 같은 날부터 배기량·최고속도 기준을 넘는 모든 신규 이륜차에 ABS 장착도 의무화됐다. 도로교통법(Motor Vehicles Act) 129조 예외 대상자는 적용 제외.</p>
+        <a class="src" href="https://www.tribuneindia.com/news/growth/govt-proposes-to-make-two-helmets-mandatory-for-new-2-wheelers" target="_blank" rel="noopener">tribuneindia.com →</a>
+      </div>
+    </article>
+
+    <article class="entry" data-category="tech" data-date="2024-01" data-brand="규제/인증">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">규제·인증</span><span class="date">2024</span></div>
+        <h3>ECE 22.06 인증, 유럽 다수 국가에서 의무화</h3>
+        <p class="desc">기존 22.05 대비 시험 조건이 확대된 ECE 22.06 규격이 2024년 유럽 여러 국가에서 의무 인증으로 전환, 제조사 설계 기준에 직접 영향.</p>
+        <a class="src" href="https://www.grandviewresearch.com/industry-analysis/motorcycle-helmet-market" target="_blank" rel="noopener">grandviewresearch.com →</a>
+      </div>
+    </article>
+
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Mips <span class="count">1</span></h3>
+    <article class="entry" data-category="tech" data-date="2025-12-11" data-brand="Mips">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Mips</span><span class="date">2025-12-11</span></div>
+        <h3>Mips, 충격 흡수 소재 기업 Koroyd 인수 — 회전·직선 충격 보호 통합</h3>
+        <p class="desc">헬멧 안전기술 기업 Mips가 모나코 기반의 튜브형 충격 흡수 구조 소재 기업 Koroyd를 선불 4000만 유로에 인수(실적 연동 최대 2500만 유로 추가). 회전충격 저감 기술(Mips 슬립플레인)과 선형충격 흡수 소재(Koroyd)를 하나의 헬멧에 결합할 수 있는 길이 열림.</p>
+        <a class="src" href="https://mipscorp.com/press-release/497d310e-d7ec-4282-a5c9-778901ce17b3/en/mips-acquires-koroyd-strengthening-world-leading-helmet-safety-technology-portfolio-with-complementary-technology/" target="_blank" rel="noopener">mipscorp.com →</a>
+      </div>
+    </article>
+
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Snell <span class="count">1</span></h3>
+    <article class="entry" data-category="tech" data-date="2025-12" data-brand="Snell">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Snell</span><span class="date">2025-12</span></div>
+        <h3>Snell M2025 표준 확산 — 회전충격 시험 최초 도입, 주요 브랜드 잇따라 인증</h3>
+        <p class="desc">미국 스넬 메모리얼 재단이 2023년 11월 발표한 신규 오토바이 헬멧 인증 규격 M2025(DOT 대응 M2025D · ECE 대응 M2025R)가, 회전충격 시험이 없던 기존 M2020을 대체하며 확산되고 있다. M2020 인증 생산은 2026년 3월 31일부로 종료되는 가운데, 2025년 말 기준 Arai·Shoei·Bell·HJC·Simpson 등 주요 브랜드가 잇따라 M2025D 인증을 획득해 자발적 프리미엄 인증에서도 회전충격 대응이 사실상 표준으로 자리잡는 추세다.</p>
+        <a class="src" href="https://smf.org/certlist/std_M2025D.php" target="_blank" rel="noopener">smf.org →</a>
+      </div>
+    </article>
+
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">소재 전반 <span class="count">3</span></h3>
+    <article class="entry" data-category="tech" data-date="2025-06" data-brand="소재 전반">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">소재 전반</span><span class="date">2025-06</span></div>
+        <h3>탄소나노튜브 · 그래핀 복합 수지, 실험 단계에서 진전</h3>
+        <p class="desc">기존 카본파이버 대비 훨씬 가볍고 강한 탄소나노튜브/그래핀 강화 복합 수지가 여전히 실험 단계지만 프리미엄 헬멧 소재의 다음 지평으로 언급됨.</p>
+        <a class="src" href="https://www.perfelt.com/innovations-in-carbon-fiber-motorcycle-helmet-technology.html" target="_blank" rel="noopener">perfelt.com →</a>
+      </div>
+    </article>
+
+    <article class="entry" data-category="tech" data-date="2024-07" data-brand="소재 전반">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">소재 전반</span><span class="date">2024</span></div>
+        <h3>그래핀 강화 아라미드 라미네이트, 프리미엄 소재로 자리잡음</h3>
+        <p class="desc">내마모성이 요구되는 프리미엄 라이더 기어 소재로 그래핀 강화 아라미드 섬유 라미네이트가 시장 지위를 굳힘.</p>
+        <a class="src" href="https://www.perfelt.com/innovations-in-carbon-fiber-motorcycle-helmet-technology.html" target="_blank" rel="noopener">perfelt.com →</a>
+      </div>
+    </article>
+
+    <article class="entry" data-category="tech" data-date="2023-06" data-brand="소재 전반">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">소재 전반</span><span class="date">2023</span></div>
+        <h3>바이오 레진 · 재활용 열가소성 소재 채택 확산</h3>
+        <p class="desc">친환경 바이오 레진과 재활용 열가소성 소재를 활용한 경량·고강도 쉘 개발이 늘며, 프리미엄 복합소재 모델 수요가 전년 대비 약 25% 증가.</p>
+        <a class="src" href="https://www.researchaxiom.com/reports/motorcycle-helmet-23198" target="_blank" rel="noopener">researchaxiom.com →</a>
+      </div>
+    </article>
+
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Mips × Comoto Holdings <span class="count">1</span></h3>
+    <article class="entry" data-category="tech" data-date="2025-05" data-brand="Mips × Comoto Holdings">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Mips × Comoto Holdings</span><span class="date">2025-05</span></div>
+        <h3>Mips Integra TX 매장 설치 프로그램 시작</h3>
+        <p class="desc">Cycle Gear 매장에서 Sedici Strada III 헬멧에 Mips Integra TX 회전 안전 시스템을 전문 설치해주는 독점 프로그램 개시.</p>
+        <a class="src" href="https://www.insightaceanalytic.com/report/motorcycle-connected-helmet-market/3630" target="_blank" rel="noopener">insightaceanalytic.com →</a>
+      </div>
+    </article>
+
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">MIPS 진영 <span class="count">1</span></h3>
+    <article class="entry" data-category="tech" data-date="2023-09" data-brand="MIPS 진영">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">MIPS 진영</span><span class="date">2023</span></div>
+        <h3>MIPS 회전충격 저감 시스템, 오토바이 헬멧으로 본격 확산</h3>
+        <p class="desc">자전거용으로 자리잡았던 MIPS 슬립플레인 기술이 오토바이 헬멧 라인업에도 본격 채택되며 회전 충격(로테이셔널 임팩트) 저감이 표준 논의로 부상.</p>
+        <a class="src" href="https://www.intelmarketresearch.com/smart-motorcycle-helmets-market-33837" target="_blank" rel="noopener">intelmarketresearch.com →</a>
+      </div>
+    </article>
+
+    </div>
+
+  </section>
+
+<section class="tab-panel" id="tab-brands" data-tab-panel="brands" hidden>
+    <div class="block-head">
+      <h2>브랜드별 이슈정리</h2>
+      <span class="count" id="brands-count">109건 · 브랜드 서브탭 · 날짜순</span>
+    </div>
+    <p class="dd-lede">신제품 출시소식·기사에서 특정 브랜드를 다룬 항목과 7개 핵심 브랜드(Shoei·Arai·AGV·Bell·HJC·Schuberth·Alpinestars) 심층 타임라인을 브랜드별로 묶었습니다. 핵심 브랜드는 심층 타임라인과 신제품·뉴스를 날짜순으로 함께 표시하고, 그 외 브랜드는 보유 항목 수에 따라 개별 서브탭 또는 "기타 브랜드" 서브탭으로 묶었습니다.</p>
+
+    <div class="subtabs" role="tablist">
+      <button class="subtab-btn active" data-subtab="shoei" role="tab" aria-selected="true">Shoei <span class="n">14</span></button>
+      <button class="subtab-btn" data-subtab="arai" role="tab" aria-selected="false">Arai <span class="n">7</span></button>
+      <button class="subtab-btn" data-subtab="agv" role="tab" aria-selected="false">AGV <span class="n">7</span></button>
+      <button class="subtab-btn" data-subtab="bell" role="tab" aria-selected="false">Bell <span class="n">9</span></button>
+      <button class="subtab-btn" data-subtab="hjc" role="tab" aria-selected="false">HJC <span class="n">11</span></button>
+      <button class="subtab-btn" data-subtab="schuberth" role="tab" aria-selected="false">Schuberth <span class="n">6</span></button>
+      <button class="subtab-btn" data-subtab="alpinestars" role="tab" aria-selected="false">Alpinestars <span class="n">8</span></button>
+      <button class="subtab-btn" data-subtab="sena" role="tab" aria-selected="false">Sena <span class="n">8</span></button>
+      <button class="subtab-btn" data-subtab="cardo" role="tab" aria-selected="false">Cardo Systems <span class="n">6</span></button>
+      <button class="subtab-btn" data-subtab="ruroc" role="tab" aria-selected="false">Ruroc <span class="n">4</span></button>
+      <button class="subtab-btn" data-subtab="airoh" role="tab" aria-selected="false">Airoh <span class="n">4</span></button>
+      <button class="subtab-btn" data-subtab="caberg" role="tab" aria-selected="false">Caberg <span class="n">3</span></button>
+      <button class="subtab-btn" data-subtab="gopro" role="tab" aria-selected="false">GoPro / Forcite <span class="n">2</span></button>
+      <button class="subtab-btn" data-subtab="other" role="tab" aria-selected="false">기타 브랜드 <span class="n">20</span></button>
+      <button class="subtab-btn" data-subtab="cross" role="tab" aria-selected="false">교차 동향</button>
+    </div>
+
+    <div class="subtab-panel" id="subtab-shoei" data-subtab-panel="shoei">
+    <div class="dd-brand" id="dd-shoei">
+      <div class="dd-brand-head"><span class="dd-dot" style="--dd-dot:var(--dd-shoei)"></span><h3>Shoei</h3><span class="count">14건</span></div>
+      <div class="dd-mixed">
+        <article class="entry" data-category="product" data-date="2026-09" data-brand="Shoei">
+          <div class="entry-bar"></div>
+          <div class="entry-body">
+            <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Shoei</span><span class="date">2026-09</span></div>
+            <h3>쇼에이, 순정 스포츠 헬멧 후속작 'Z-9' 일본 9월 출시 — 공력·환기 성능 대폭 개선</h3>
+            <p class="desc">인기 스포츠 라인 Z-8의 후속 모델 Z-9를 2026년 9월 일본에서 출시. 로고 일체형으로 재설계한 에어 인테이크와 신형 쉘 디자인으로 기존 대비 헬멧 리프트를 약 13%, 전면 드래그를 약 3% 줄였고, 응급 구조대가 신속히 탈거할 수 있는 E.Q.R.S.(Emergency Quick Release System)를 적용. XS~4XL 풀 사이즈로 전개되며 기본 컬러 가격은 세금 포함 71,500엔, MotoGP 라이더 파비오 디 지안난토니오 레플리카 컬러(88,000엔)도 함께 출시된다.</p>
+            <a class="src" href="https://japan.webike.net/moto_news/new-product-shoei-new-z-9-to-be-released-in-september-2026-for-%c2%a571500-significantly-updated-aerodynamics-and-ventilation-from-the-z-8/" target="_blank" rel="noopener">japan.webike.net →</a>
+          </div>
+        </article>
+        <article class="entry" data-category="product" data-date="2026-09" data-brand="Shoei">
+          <div class="entry-bar"></div>
+          <div class="entry-body">
+            <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Shoei</span><span class="date">2026-09</span></div>
+            <h3>Z-9 "DIGGIA ECHO" 공개 — MotoGP 라이더 파비오 디 지안난토니오 레플리카, 9월 발매</h3>
+            <p class="desc">9월 일본에서 정식 출시되는 신형 스포츠 풀페이스 Z-9의 첫 MotoGP 레플리카 컬러웨이. 이탈리아 라이더 파비오 디 지안난토니오의 레이스 도장을 재현한 TC-3(옐로우/블랙) 무광 컬러로 XS~XXL 6사이즈 전개하며, 재설계된 인테이크로 흡기량을 늘리고 헬멧 리프트 약 13%·정면 드래그 약 3%를 줄인 Z-9의 공력 성능이 동일하게 적용된다. 가격은 세금 포함 88,000엔.</p>
+            <a class="src" href="https://japan.webike.net/moto_news/new-product-shoeis-new-z-9-fastest-replica-is-fabio-di-giannantonio-z-9-diggia-echo-for-%c2%a588000-releasing-in-september/" target="_blank" rel="noopener">japan.webike.net →</a>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2026.09 (일본)</time>
+          <div>
+            <h4>Z-9 — Z-8 후속 스포츠 풀페이스</h4>
+            <div class="dd-tags"><span class="dd-tag material">Multi-Ply Matrix AIM+</span></div>
+            <p>Multi-Ply Matrix AIM+ 셸 형상 재설계. 전면 흡기 용적 190% 증가 주장, 상하부 벤트 재설계, 피크·실드 디테일 개선, Shoei Comlink 연동 준비. 8개 셸 사이즈(XS–XXXXL), 일본 출시가 ¥71,500.</p>
+            <div class="dd-sources"><a href="https://japan.webike.net/moto_news/new-product-shoei-new-z-9-to-be-released-in-september-2026-for-%c2%a571500-significantly-updated-aerodynamics-and-ventilation-from-the-z-8/" target="_blank" rel="noopener">webike japan →</a><a href="https://www.motocentral.co.uk/blogs/new-gear-news/shoei-nxr3" target="_blank" rel="noopener">motocentral.co.uk →</a></div>
+          </div>
+        </article>
+        <article class="entry" data-category="product" data-date="2026-08-25" data-brand="Shoei">
+          <div class="entry-bar"></div>
+          <div class="entry-body">
+            <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Shoei</span><span class="date">2026-08-25</span></div>
+            <h3>Z-9 "KABOOM" 신규 그래픽 공개 — 스트리트 아트풍 폭발 디자인, 11월 발매</h3>
+            <p class="desc">9월 출시된 신형 풀페이스 Z-9에 아메리칸 코믹 스타일의 폭발 그래픽을 적용한 컬러웨이 "KABOOM"을 새로 라인업. TC-5(블랙/화이트)·TC-10(화이트/블루) 2컬러로 XS~XXL 6사이즈 전개하며, 유리섬유와 3D 성형 유기섬유를 결합한 쉘 구조는 기존 Z-9와 동일. 가격은 85,800엔(세금 포함), 11월 발매 예정.</p>
+            <a class="src" href="https://young-machine.com/2026/08/25/748206/photo/748208/" target="_blank" rel="noopener">young-machine.com →</a>
+          </div>
+        </article>
+        <article class="entry" data-category="product" data-date="2026-07-30" data-brand="Shoei">
+          <div class="entry-bar"></div>
+          <div class="entry-body">
+            <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Shoei</span><span class="date">2026-07-30</span></div>
+            <h3>RF-SR2 공개 — 하단 흡기 43%·상단 흡기 21% 증가, 공력 82% 개선</h3>
+            <p class="desc">스트리트 플래그십 RF-SR 후속 모델. 대형 하단 인테이크와 재설계된 상단 인테이크로 환기 성능을 크게 높이고, 대형 풍동 시험을 거친 리어 스포일러로 공력 성능을 82% 개선. 비상 퀵릴리스 치크패드와 Pinlock EVO 렌즈를 채용했으며 가격 인상 없이 $499.99에 출시.</p>
+            <a class="src" href="https://americansporttouring.com/shoei-announces-rf-sr2-helmet/" target="_blank" rel="noopener">americansporttouring.com →</a>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2026.01 발표 · 06 출시</time>
+          <div>
+            <h4>Hornet ADV 06 — ECE 22.06 인증 어드벤처 헬멧</h4>
+            <div class="dd-tags"><span class="dd-tag safety">ECE 22.06</span><span class="dd-tag material">AIM+ Shell</span></div>
+            <p>구형 ECE 22.05 Hornet ADV를 대체하는 첫 22.06 인증 모델. AIM+ 셸을 4개 셸 사이즈(XS-S/M/L/XL-XXL)로 세분화, 흡기 1개 추가·배기 2개 감소로 환기 재설계, 양력 저감용 일체형 리어 스포일러와 퍼포레이티드 피크, EQRS 비상 라이너 분리, Pinlock EVO 포함 CNS-2 실드.</p>
+            <div class="dd-sources"><a href="https://www.motorcyclenews.com/bike-kit/news/2026-kit-news/january/shoei-hornet-adv-06-specs-revealed/" target="_blank" rel="noopener">motorcyclenews.com →</a><a href="https://www.visordown.com/news/new-shoei-hornet-adv-06-arrives-ece-2206-approval-and-revised-internals" target="_blank" rel="noopener">visordown.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2025.11 발표 · 2026 출시</time>
+          <div>
+            <h4>GT-Air 3 SMART — EyeLights AR HUD 탑재</h4>
+            <div class="dd-tags"><span class="dd-tag elec">Smart / AR HUD</span></div>
+            <p>실드 일체형 HUD를 양산한 세계 최초 헬멧. 프랑스 EyeLights와 공동 개발, 3,000니트 나노OLED 프로젝터로 속도·내비게이션·통화·레이더 경고를 시야 전방 3m 지점에 표시. 배터리 10시간, 반응속도 32%+ 개선 주장. 유니버설 인터콤·능동 노이즈캔슬 마이크·Siri/Google Assistant 연동 포함. 2026년 9월부터 기본 GT-Air 3가 HUD 호환으로 전환.</p>
+            <div class="dd-sources"><a href="https://www.techradar.com/vehicle-tech/hybrid-electric-vehicles/shoei-reveals-worlds-first-motorcycle-helmet-with-a-visor-mounted-hud-and-it-makes-so-much-sense-for-riders" target="_blank" rel="noopener">techradar.com →</a><a href="https://www.rideapart.com/news/779974/shoei-gt-3-air-smart-helmet-specs-price/" target="_blank" rel="noopener">rideapart.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2026 상반기</time>
+          <div>
+            <h4>X-SPR Pro 02 — FIM FRHPhe-02 인증 추가</h4>
+            <div class="dd-tags"><span class="dd-tag safety">FIM FRHPhe-02</span><span class="dd-tag safety">ECE 22.06</span><span class="dd-tag material">6-layer AIM+</span></div>
+            <p>기존 FIM-01 인증 X-SPR Pro 후속으로, ECE 22.06 외 신규 FIM FRHPhe-02 인증까지 추가 획득. 6레이어 AIM+ 유리섬유/고성능섬유 혼합 셸, 4개 셸 사이즈, 약 1450g, EQRS, 더블D링 체결, 350km/h 기준 공력 성능.</p>
+            <div class="dd-sources"><a href="https://www.shoei.com.au/helmet/x-spr-pro-02-fim/" target="_blank" rel="noopener">shoei.com.au →</a><a href="https://www.shoei-europe.com/products/x-spr-pro/" target="_blank" rel="noopener">shoei-europe.com →</a></div>
+          </div>
+        </article>
+        <article class="entry" data-category="product" data-date="2025-03" data-brand="Shoei × EyeLights">
+          <div class="entry-bar"></div>
+          <div class="entry-body">
+            <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Shoei × EyeLights</span><span class="date">2025-03</span></div>
+            <h3>GT-Air 3 Smart — 나노 OLED AR HUD 최초 양산 통합</h3>
+            <p class="desc">바이저에 나노 OLED 프로젝션을 직접 내장, 약 3m 전방 가상 거리에 속도·내비게이션·레이더 경고·알림을 표시하는 세계 최초 양산 AR 헬멧으로 소개됨.</p>
+            <a class="src" href="https://www.proavinnovate.com/innovation/worlds-first-motorcycle-helmet-with-integrated-ar-hud" target="_blank" rel="noopener">proavinnovate.com →</a>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2025</time>
+          <div>
+            <h4>J·O2 오픈페이스 헬멧 추가</h4>
+            <div class="dd-tags"></div>
+            <p>라인업 확장 모델.</p>
+            <div class="dd-sources"><a href="https://www.shoei-europe.com/" target="_blank" rel="noopener">shoei-europe.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023–24</time>
+          <div>
+            <h4>GT-Air 3 스포츠 투어링 헬멧</h4>
+            <div class="dd-tags"><span class="dd-tag safety">ECE 22.06</span><span class="dd-tag material">Multi-density EPS</span></div>
+            <p>Neotec 3와 동일한 ECE 22.06 셸 플랫폼 및 AIM 구조 공유. 다층 밀도 EPS 라이너 적용.</p>
+            <div class="dd-sources"><a href="https://www.advrider.com/new-sport-touring-helmets-shoei-neotec-3-gt-air-3/" target="_blank" rel="noopener">advrider.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2024</time>
+          <div>
+            <h4>J-Cruise 3 오픈페이스 헬멧</h4>
+            <div class="dd-tags"></div>
+            <p>투어링 라인업 리프레시의 일환으로 추가.</p>
+            <div class="dd-sources"><a href="https://www.shoei-europe.com/" target="_blank" rel="noopener">shoei-europe.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023.09 (EU)</time>
+          <div>
+            <h4>Neotec 3 모듈러 헬멧 출시</h4>
+            <div class="dd-tags"><span class="dd-tag safety">ECE 22.06</span><span class="dd-tag elec">Comms Integration</span></div>
+            <p>고성능 유기섬유 6겹으로 구성된 5-레이어 AIM 셸 신형. 턱부 개폐 메커니즘 재설계. SENA SRL-2 / Shoei Comlink 통합을 고려한 설계.</p>
+            <div class="dd-sources"><a href="https://www.gpbikes.com/the-riders-seat/new-shoei-neotec-3-helmet-2024" target="_blank" rel="noopener">gpbikes.com →</a><a href="https://www.advrider.com/new-sport-touring-helmets-shoei-neotec-3-gt-air-3/" target="_blank" rel="noopener">advrider.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023.01–03</time>
+          <div>
+            <h4>X-Fifteen (X-15) 플래그십 레이스 헬멧 출시</h4>
+            <div class="dd-tags"><span class="dd-tag safety">ECE 22.06</span><span class="dd-tag safety">FIM</span><span class="dd-tag material">Zoned AIM+ Shell</span></div>
+            <p>자체 풍동에서 218mph 이상 속도로 테스트. AIM+ 셸은 아라미드·탄소섬유를 부위별로 다른 두께로 적층(턱·정수리는 두껍게, 관자놀이는 얇게). 신형 CWR-F2R 실드로 시야 개선. 모든 충격 벡터(경사충격 포함)에서 ECE 22.06 인증, 레이싱용 FIM 인증 취득.</p>
+            <div class="dd-sources"><a href="https://www.motorcycle.com/bikes/product/gear/shoei-announces-the-x-fifteen-helmet-44583964" target="_blank" rel="noopener">motorcycle.com →</a><a href="https://www.revzilla.com/motorcycle/shoei-x-15-helmet" target="_blank" rel="noopener">revzilla.com →</a></div>
+          </div>
+        </article>
+      </div>
+    </div>
+    </div>
+
+    <div class="subtab-panel" id="subtab-arai" data-subtab-panel="arai" hidden>
+    <div class="dd-brand" id="dd-arai">
+      <div class="dd-brand-head"><span class="dd-dot" style="--dd-dot:var(--dd-arai)"></span><h3>Arai</h3><span class="count">7건</span></div>
+      <div class="dd-mixed">
+        <article class="entry" data-category="product" data-date="2026-08-11" data-brand="Arai">
+          <div class="entry-bar"></div>
+          <div class="entry-body">
+            <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Arai</span><span class="date">2026-08-11</span></div>
+            <h3>RX-7X "Ai Ogura" Trackhouse 레플리카 한정판 공개</h3>
+            <p class="desc">MotoGP/Moto2 라이더 Ai Ogura의 레이스 도장을 재현한 한정판. 최상위 레이싱 스펙 RX-7X 쉘(PB-SNC2 고강도 섬유)을 기반으로 8월 말 일본 한정 수량으로 발매(90,200엔).</p>
+            <a class="src" href="https://www.rideapart.com/news/795212/arai-rx7x-ai-ogura-trackhouse-replica-helmet-specs-features/" target="_blank" rel="noopener">rideapart.com →</a>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2025 EICMA → 2026</time>
+          <div>
+            <h4>"75년의 보호 우선" 2026 컬렉션 발표</h4>
+            <div class="dd-tags"></div>
+            <p>Arai 창립 75주년을 내세운 2026 라인업 공개.</p>
+            <div class="dd-sources"><a href="https://www.araihelmet.eu/en/collection/detail/new-2026-designs" target="_blank" rel="noopener">araihelmet.eu →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2025.12</time>
+          <div>
+            <h4>MX-V EVO FIM Racing #2 — FIM 오프로드 인증 획득</h4>
+            <div class="dd-tags"><span class="dd-tag safety">FIM FRHPhe-02</span></div>
+            <p>Arai 최초로 FIM FRHPhe-02(2026시즌부터 오프로드 레이싱 의무 규격) 인증을 획득한 모토크로스 헬멧. 셸은 기존 MX-V EVO의 PB-cLc2(Peripherally-Belted Complex Laminate) 구조를 유지 — 신규 인증 자체가 핵심 소식.</p>
+            <div class="dd-sources"><a href="https://www.visordown.com/news/arai-mx-v-evo-fim-racing-no2-secures-fim-homologation" target="_blank" rel="noopener">visordown.com →</a><a href="https://www.cyclenews.com/2025/10/article/list-of-fim-homologated-racing-helmets-released/" target="_blank" rel="noopener">cyclenews.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2024</time>
+          <div>
+            <h4>XD-5 듀얼스포츠/어드벤처 헬멧, VAS Max Vision 확대</h4>
+            <div class="dd-tags"></div>
+            <p>VAS Max Vision 실드와 FCS 내장재를 X-시리즈 전반에 확대 적용.</p>
+            <div class="dd-sources"><a href="https://scooterlab.uk/2024-arai-collection-preview-news/" target="_blank" rel="noopener">scooterlab.uk →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>지속 중</time>
+          <div>
+            <h4>R75 Shape &amp; M.O.R.E. 회전충격 완화 철학</h4>
+            <div class="dd-tags"><span class="dd-tag safety">R75 / M.O.R.E.</span><span class="dd-tag material">Super Fiber + Zylon</span></div>
+            <p>돌출부 없이 셸 전체에 75mm 이상의 연속 곡률을 유지해 충격이 "미끄러져 나가도록" 설계 — 별도 슬립라이너 없이 형상 자체로 MIPS류 회전에너지 완화를 구현한다는 Arai의 접근. 일반 유리섬유보다 약 30% 강한 Super Fiber, AR Mat 보강층, 상급 모델 크라운부 Zylon 보강 사용. EPS는 셸 사이즈별 최대 10단계 밀도로 수작업 성형.</p>
+            <div class="dd-sources"><a href="https://www.araiamericas.com/technology" target="_blank" rel="noopener">araiamericas.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023.01</time>
+          <div>
+            <h4>Contour-X 스포츠 투어링 헬멧 출시</h4>
+            <div class="dd-tags"></div>
+            <p>2019년 Regent-X 이후 첫 신규 로드 모델. 조절식 FCS-2 치크패드가 적용된 냄새 저항 브러시드 나일론 내장재, 흡기 7·배기 6 벤트 시스템, 새 공력 형상.</p>
+            <div class="dd-sources"><a href="https://www.roadracingworld.com/news/2023-arai-contour-x-race-performance-for-the-sport-tourer-and-road-rider/" target="_blank" rel="noopener">roadracingworld.com →</a><a href="https://ridermagazine.com/2023/01/23/arai-contour-x-helmet-gear-review/" target="_blank" rel="noopener">ridermagazine.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023</time>
+          <div>
+            <h4>Corsair-X 플래그십 지속 개선</h4>
+            <div class="dd-tags"><span class="dd-tag safety">Snell 2020</span></div>
+            <p>이중 피벗 마운트로 실드 위치를 낮춘 VAS-V(Variable Axis System) 실드 도입. 이전 세대(Corsair-V) 대비 부품 3개만 유지될 정도의 사실상 전면 재설계.</p>
+            <div class="dd-sources"><a href="https://www.araiamericas.com/corsair-x-technology" target="_blank" rel="noopener">araiamericas.com →</a><a href="https://www.motorcycle.com/products/mo-tested-arai-corsair-x-review" target="_blank" rel="noopener">motorcycle.com →</a></div>
+          </div>
+        </article>
+      </div>
+      <div class="dd-coverage-note"><b>커버리지 노트 —</b> Arai 공식 뉴스 페이지는 발행일 표기가 불명확해 위 항목 이후 세부 날짜 확인이 어려움. 전자·스마트 기능 홍보보다 셸 형상·소재에 집중하는 브랜드 성향이 뚜렷함.</div>
+    </div>
+    </div>
+
+    <div class="subtab-panel" id="subtab-agv" data-subtab-panel="agv" hidden>
+    <div class="dd-brand" id="dd-agv">
+      <div class="dd-brand-head"><span class="dd-dot" style="--dd-dot:var(--dd-agv)"></span><h3>AGV</h3><span class="count">7건</span></div>
+      <div class="dd-mixed">
+        <article class="dd-entry">
+          <time>2026.05.08</time>
+          <div>
+            <h4>K7 출시 — 신규 스포츠투어링/데일리 모델</h4>
+            <div class="dd-tags"><span class="dd-tag safety">ECE 22.06</span><span class="dd-tag material">Carbon/Aramid Composite</span></div>
+            <p>K3/K5 위, K6 S와 나란한 신규 라인. 카본/아라미드 복합 셸 3사이즈, EPS 4단계 밀도, 1450–1480g. 풍동 개발 공력 셸, 190° Ultravision 실드(Pinlock 120 XLT MaxVision 포함), 전면 흡기 5개+후방 듀얼 익스트랙터, ECE 22.06 인증. 미국 판매가 $639(단색)–$759(프리미엄 그래픽).</p>
+            <div class="dd-sources"><a href="https://ultimatemotorcycling.com/2026/05/16/agv-k7-first-look-14-sport-touring-motorcycle-helmet-fast-facts/" target="_blank" rel="noopener">ultimatemotorcycling.com →</a><a href="https://www.motorcycle.com/bikes/agv-introduces-its-latest-sport-touring-helmet-the-k7-44664691" target="_blank" rel="noopener">motorcycle.com →</a></div>
+          </div>
+        </article>
+        <article class="entry" data-category="product" data-date="2026-05-07" data-brand="AGV">
+          <div class="entry-bar"></div>
+          <div class="entry-body">
+            <div class="entry-top"><span class="tag product">신제품</span><span class="brand">AGV</span><span class="date">2026-05-07</span></div>
+            <h3>K7 — 윈드터널 개발 신형 스포츠투어링 헬멧 공개</h3>
+            <p class="desc">K6/K6S의 후속으로, 윈드터널에서 개발한 공력 쉘과 일체형 스포일러로 고속 안정성과 정숙성을 높였고 190도 시야각과 3가지 쉘 사이즈, 교체형 패드를 적용. $639부터.</p>
+            <a class="src" href="https://www.motorcycle.com/bikes/agv-introduces-its-latest-sport-touring-helmet-the-k7-44664691" target="_blank" rel="noopener">motorcycle.com →</a>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023–25</time>
+          <div>
+            <h4>K6 S — 경량 데일리 스포츠 헬멧</h4>
+            <div class="dd-tags"><span class="dd-tag material">Carbon/Aramid</span></div>
+            <p>카본/아라미드 셸과 공력 지향 프로파일 결합.</p>
+            <div class="dd-sources"><a href="https://www.agv.com/us/en/full-face/k6-s/" target="_blank" rel="noopener">agv.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2025</time>
+          <div>
+            <h4>FRHPhe-02 (FIM Phase 2) 오프로드 인증 획득</h4>
+            <div class="dd-tags"><span class="dd-tag safety">FIM FRHPhe-02</span></div>
+            <p>Arai, HJC, Bell, Alpinestars, Scorpion 등과 함께 FIM Phase 2 오프로드 인증 헬멧 보유 브랜드로 등재. 경사·반구형 앤빌 회전충격 테스트와 Skull Fracture Criterion 추가.</p>
+            <div class="dd-sources"><a href="https://www.fim-moto.com/en/news/news-detail/article/more-helmets-fim-homologated-under-frhphe-02" target="_blank" rel="noopener">fim-moto.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023–24</time>
+          <div>
+            <h4>Pista GP RR — 기술 쇼케이스 플래그십</h4>
+            <div class="dd-tags"><span class="dd-tag safety">FIM</span><span class="dd-tag safety">ECE 22.06</span><span class="dd-tag material">100% Carbon</span></div>
+            <p>100% 카본 셸, 알루미늄·구리·마그네슘 합금 윙 벤트가 Pro Spoiler 에어로 패키지와 연동. 실드 두께 최대 5mm(일반 로드 헬멧의 5배). 17가지 내장재 두께 조합의 360° Adaptive Fit. FIM 인증(경사충격 평가 포함) + ECE 22.06.</p>
+            <div class="dd-sources"><a href="https://www.agv.com/us/en/pista-gp-rr.html" target="_blank" rel="noopener">agv.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023–24</time>
+          <div>
+            <h4>Streetmodular 업데이트</h4>
+            <div class="dd-tags"></div>
+            <p>190° Ultravision 6단 실드 메커니즘에 저속 시가지 주행용 "City Position" 중간 디텐트 추가.</p>
+            <div class="dd-sources"><a href="https://www.motosport.com/agv-streetmodular-helmet" target="_blank" rel="noopener">motosport.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023</time>
+          <div>
+            <h4>K1 S 풀페이스 출시</h4>
+            <div class="dd-tags"><span class="dd-tag safety">ECE 22.06+</span></div>
+            <p>Pista GP R에서 파생된 MotoGP식 중앙 벤팅과 190° Ultravision 실드를 미드레인지로 확대. "Extreme Safety" 구조가 ECE 22.06을 상회한다고 명시.</p>
+            <div class="dd-sources"><a href="https://www.championhelmets.com/us/agv/k1-s.html" target="_blank" rel="noopener">championhelmets.com →</a></div>
+          </div>
+        </article>
+      </div>
+      <div class="dd-coverage-note"><b>커버리지 노트 —</b> AGV 자체 뉴스 아카이브 페이지 접근 불가. 위 내용은 제품 페이지와 리테일러/매체 요약 기반으로 재구성됨.</div>
+      <div class="dd-coverage-note"><b>관련 항목 —</b> GoPro·AGV·Forcite 공동 개발 사각지대 감지 헬멧 특허 소식은 "GoPro / Forcite" 탭에서 확인할 수 있습니다.</div>
+    </div>
+    </div>
+
+    <div class="subtab-panel" id="subtab-bell" data-subtab-panel="bell" hidden>
+    <div class="dd-brand" id="dd-bell">
+      <div class="dd-brand-head"><span class="dd-dot" style="--dd-dot:var(--dd-bell)"></span><h3>Bell</h3><span class="count">9건</span></div>
+      <div class="dd-mixed">
+        <article class="entry" data-category="tech" data-date="2026-08-25" data-brand="Bell Helmets">
+          <div class="entry-bar"></div>
+          <div class="entry-body">
+            <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Bell Helmets</span><span class="date">2026-08-25</span></div>
+            <h3>Moto-10 GP 공개 — 경량 세그먼트 3K 카본 쉘에 Mips 스피어리컬 기술 강화</h3>
+            <p class="desc">챔피언십 플랫폼 Moto-10 Spherical의 다음 세대 모델. 더 가벼워진 세그먼트 3K 카본 쉘, 개선된 Virus CoolJade 내장재, 강화된 Flying Bridge 바이저를 적용했고 DOT·ECE 22.06·FIM-02 인증 범위를 확대. 라이너 이중 회전층으로 회전 충격을 분산하는 Mips 스피어리컬 기술, 열교환 환기 시스템(T.E.A.S), 마그네틱 응급 치크패드 분리 시스템(MERS)을 갖췄으며 9월부터 판매(솔리드 €899.99·그래픽 €949.99).</p>
+            <a class="src" href="https://mxvice.com/2026/08/25/bell-helmets-introduces-the-all-new-moto-10-gp-the-championship-platform-refined/" target="_blank" rel="noopener">mxvice.com →</a>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2026.08 발표 · 09 출시</time>
+          <div>
+            <h4>Moto-10 GP — Moto-10 Spherical 후속 경량 카본 모델</h4>
+            <div class="dd-tags"><span class="dd-tag safety">FIM-02</span><span class="dd-tag material">Segmented 3K Carbon</span></div>
+            <p>기존 Moto-10 Spherical의 보호 구조·형상은 유지하되 셸을 Segmented 3K Carbon으로 전환해 경량화(완성 헬멧 약 1400g±50g). 볼앤소켓 방식으로 내·외 라이너가 독립 회전하는 Spherical Technology powered by Mips 유지. DOT·ECE 22.06에 더해 신규 FIM-02(오프로드 레이싱 요구 규격) 트리플 인증 획득, 냉각 소재 Virus CoolJade 라이너와 강화된 Flying Bridge 바이저, 사이즈별로 스케일링되는 친바 적용. 가격 €899.99(단색)–€949.99(그래픽), 2026년 9월 딜러 공급 시작.</p>
+            <div class="dd-sources"><a href="https://mxvice.com/2026/08/25/bell-helmets-introduces-the-all-new-moto-10-gp-the-championship-platform-refined/" target="_blank" rel="noopener">mxvice.com →</a><a href="https://www.motor.nl/producten/bell-helmets-presenteert-de-nieuwe-moto-10-gp/" target="_blank" rel="noopener">motor.nl →</a><a href="https://www.rockymountainatvmc.com/riding-gear/bell-moto-10-gp-helmet-p" target="_blank" rel="noopener">rockymountainatvmc.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2026.02–03</time>
+          <div>
+            <h4>Magnum 2026 리런치 — 레트로 오픈페이스</h4>
+            <div class="dd-tags"><span class="dd-tag safety">ECE 22.06</span><span class="dd-tag material">ABS/PC Shell</span></div>
+            <p>Custom 500보다 저렴한 대안으로 재출시된 70–80년대 스타일 레트로 "젯" 헬멧. 고내충격 ABS/폴리카보네이트 셸, 약 980g(M 사이즈), DOT·ECE 22.06 인증.</p>
+            <div class="dd-sources"><a href="https://motorcycle-soul.com/gb/blog/products/bell-magnum-2026-definitive-biography-ece-2206" target="_blank" rel="noopener">motorcycle-soul.com →</a><a href="https://www.bellhelmets.com/product/magnum/250070001800000001.html" target="_blank" rel="noopener">bellhelmets.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2025.11</time>
+          <div>
+            <h4>Full-10 MIPS 출시</h4>
+            <div class="dd-tags"><span class="dd-tag safety">MIPS</span><span class="dd-tag material">Thermal Exchange Airflow</span></div>
+            <p>전면 흡기구로 공기를 머리 위로 유도해 후방 배출하는 Thermal Exchange Airflow System을 10 시리즈 풀페이스에 추가.</p>
+            <div class="dd-sources"><a href="https://www.wideopenmountainbike.com/2025/11/bell-release-their-new-full-face-the-full-10-mips" target="_blank" rel="noopener">wideopenmountainbike.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2025.10</time>
+          <div>
+            <h4>Moto-10 MIPS / MX-10 MIPS 발표</h4>
+            <div class="dd-tags"><span class="dd-tag safety">MIPS</span></div>
+            <p>"10 시리즈"로 통합된 오프로드/모토크로스 플래그십 라인에 MIPS 확대 적용.</p>
+            <div class="dd-sources"><a href="https://racerxonline.com/2025/10/07/introducing-the-all-new-moto-10-mips-and-mx-10-mips-from-bell-helmets" target="_blank" rel="noopener">racerxonline.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2025</time>
+          <div>
+            <h4>FIM FRHPhe-02 오프로드 인증</h4>
+            <div class="dd-tags"><span class="dd-tag safety">FIM FRHPhe-02</span></div>
+            <p>Phase 2 인증 오프로드 헬멧 보유 브랜드 목록에 등재.</p>
+            <div class="dd-sources"><a href="https://www.fim-moto.com/en/news/news-detail/article/more-helmets-fim-homologated-under-frhphe-02" target="_blank" rel="noopener">fim-moto.com →</a></div>
+          </div>
+        </article>
+        <article class="entry" data-category="product" data-date="2025-03" data-brand="Bell Helmets">
+          <div class="entry-bar"></div>
+          <div class="entry-body">
+            <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Bell Helmets</span><span class="date">2025-03</span></div>
+            <h3>블루투스 커넥티드 라인업 확장</h3>
+            <p class="desc">블루투스 통신, 라이더 커넥티비티, 통합 안전 기술을 강화한 스마트 헬멧 포트폴리오 확대 발표.</p>
+            <a class="src" href="https://www.insightaceanalytic.com/report/motorcycle-connected-helmet-market/3630" target="_blank" rel="noopener">insightaceanalytic.com →</a>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023–24</time>
+          <div>
+            <h4>Race Star Flex DLX — 에어로/충격기술 플래그십</h4>
+            <div class="dd-tags"><span class="dd-tag material">3K Carbon</span><span class="dd-tag safety">Tri-density Liner</span></div>
+            <p>풍동 최적화 3K 카본 셸. 저·중·고속 충격 시나리오별로 튜닝된 3개 밀도의 "Flex" 임팩트 라이너. 셸 5사이즈 × EPS 5옵션으로 사이즈별 핏 개선. 표준 Race Star 대비 약 10% 경량화.</p>
+            <div class="dd-sources"><a href="https://www.revzilla.com/motorcycle/bell-race-star-flex-dlx-helmet" target="_blank" rel="noopener">revzilla.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023</time>
+          <div>
+            <h4>Qualifier DLX MIPS — Bell 스트리트 헬멧 최초 MIPS 탑재</h4>
+            <div class="dd-tags"><span class="dd-tag safety">MIPS</span></div>
+            <p>오프로드 라인(MX-9 등)에 이어 스트리트 헬멧에도 MIPS 회전충격 기술 최초 적용. 경사 충격 시 약 10–15mm 슬립을 허용해 뇌 전달 회전력 저감. Velocity Flow 벤틸레이션, 포토크로믹 ProTint 실드 동반.</p>
+            <div class="dd-sources"><a href="https://www.motorcyclepowersportsnews.com/bell-helmets-now-offering-mips-impact-technology-in-certain-helmets/" target="_blank" rel="noopener">motorcyclepowersportsnews.com →</a><a href="https://www.cycleworld.com/sport-rider/bell-helmets-introduces-mips-impact-technology-to-increase-safety-in-helmets/" target="_blank" rel="noopener">cycleworld.com →</a></div>
+          </div>
+        </article>
+      </div>
+      <div class="dd-coverage-note"><b>커버리지 노트 —</b> Bell 자체 뉴스 페이지 접근 불가. MIPS 도입 시점 추적은 비교적 명확하나 셸/소재 발표는 Race Star Flex DLX 외 확인된 항목이 적음.</div>
+    </div>
+    </div>
+
+    <div class="subtab-panel" id="subtab-hjc" data-subtab-panel="hjc" hidden>
+    <div class="dd-brand" id="dd-hjc">
+      <div class="dd-brand-head"><span class="dd-dot" style="--dd-dot:var(--dd-hjc)"></span><h3>HJC</h3><span class="count">11건</span></div>
+      <div class="dd-mixed">
+        <article class="entry" data-category="product" data-date="2026-08-18" data-brand="HJC">
+          <div class="entry-bar"></div>
+          <div class="entry-body">
+            <div class="entry-top"><span class="tag product">신제품</span><span class="brand">HJC</span><span class="date">2026-08-18</span></div>
+            <h3>RPHA 12 "Mr. Peeks" Call of Duty 에디션 공개 — 5종 섬유 복합 쉘 적용</h3>
+            <p class="desc">Call of Duty 좀비 모드의 인기 캐릭터 '미스터 픽스'를 테마로 한 플래그십 RPHA 12 기반 한정판. 탄소-아라미드, 카본, 글라스, 유기 부직포, 천연 리넨 섬유를 조합한 신규 쉘 소재로 경량화와 충격 흡수력을 동시에 높였으며 Pinlock 대응 HJ-42 바이저와 2XS~2XL 사이즈, 5년 보증을 제공.</p>
+            <a class="src" href="https://hjchelmets.us/blogs/news/rpha-12-mister-peeks-call-of-duty" target="_blank" rel="noopener">hjchelmets.us →</a>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2026.06</time>
+          <div>
+            <h4>Y10 — 성인 모델 축소판이 아닌 아동 전용 설계 풀페이스 헬멧 출시</h4>
+            <div class="dd-tags"><span class="dd-tag material">Youth-specific PC Shell</span><span class="dd-tag safety">OEKO-TEX Standard 100</span></div>
+            <p>HJC 최초로 아동 두상 비율에 맞춰 처음부터 새로 설계한 풀페이스 헬멧(성인 셸의 축소 버전이 아님). 경량 폴리카보네이트 쉘에 전용 EPS 라이너 구성, 흡기 3개·배기 1개 환기 시스템, 99% UV 차단 실드, 응급 퀵릴리스 치크패드를 적용. 내장재는 유해물질 안전 인증인 OEKO-TEX Standard 100을 충족하며 더블D링 체결 방식 채택. 가격은 솔리드 $119.99, 그래픽(MIKA·FRANK) $149.99.</p>
+            <div class="dd-sources"><a href="https://hjchelmets.us/blogs/news/y10" target="_blank" rel="noopener">hjchelmets.us →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2026.05</time>
+          <div>
+            <h4>Cardo 통합 통신 — HJC Spirit / HJC 4X</h4>
+            <div class="dd-tags"><span class="dd-tag elec">Comms Integration</span></div>
+            <p>기존 SENA 기반 SMART HJC와는 별도로, Cardo 하드웨어를 셸에 직접 내장해 더 낮은 프로파일을 구현한 신규 파트너십. HJC Spirit($149.95)은 보급형 블루투스 2인 인터콤(RPHA/F/i 라인 13개 모델 호환), HJC 4X($299.95)는 4인 그룹 인터콤·JBL 오디오·내장 FM 라디오·핸즈프리 Natural Voice Operation 추가.</p>
+            <div class="dd-sources"><a href="https://ultimatemotorcycling.com/2026/05/21/cardo-hjc-4x-integrated-helmet-intercom-system-first-look/" target="_blank" rel="noopener">ultimatemotorcycling.com →</a><a href="https://cardosystems.com/products/hjc-spirit" target="_blank" rel="noopener">cardosystems.com →</a></div>
+          </div>
+        </article>
+        <article class="entry" data-category="tech" data-date="2026-03" data-brand="HJC">
+          <div class="entry-bar"></div>
+          <div class="entry-body">
+            <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">HJC</span><span class="date">2026-03</span></div>
+            <h3>RPHA 1 V2 Carbon 공개 — FIM FRHPhe-02 인증 획득한 MotoGP향 레이싱 헬멧</h3>
+            <p class="desc">MotoGP 라이더 피드백을 반영해 개발한 플래그십 레이싱 헬멧으로, DOT·ECE 22.06에 더해 한층 엄격해진 FIM FRHPhe-02 레이싱 호몰로게이션을 획득. 사이즈 M 기준 약 1,400g의 카본 파이버 쉘에 후미 레이싱 스포일러와 메탈 바이저 락을 적용했고 Pinlock 120 XLT 렌즈와 추가 다크 스모크 바이저를 기본 제공. 가격은 €749부터.</p>
+            <a class="src" href="https://www.motorcycles.news/en/hjc-rpha-1-v2-carbon-full-face-helmet-motogp/" target="_blank" rel="noopener">motorcycles.news →</a>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2026.01–02</time>
+          <div>
+            <h4>i11 — i10 후속, Snell M2025D 인증</h4>
+            <div class="dd-tags"><span class="dd-tag safety">Snell M2025D</span><span class="dd-tag material">Advanced PC Compound</span></div>
+            <p>HJC 최초로 신규 Snell M2025D 규격(+DOT) 인증을 획득한 미드레인지 스포츠 풀페이스. 폴리카보네이트+고내충격 ABS+보강재로 구성된 "Advanced Polycarbonate Compound" 셸로 전환, 레이스 헬멧에서 가져온 ACS(Advanced Channeling Ventilation) 재설계 스포일러, Pinlock 대응 HJ-38 실드. 미국가 $179.99–199.99, "i11 Instant" 변형도 출시.</p>
+            <div class="dd-sources"><a href="https://www.cyclenews.com/2026/01/article/hjc-i11-helmet/" target="_blank" rel="noopener">cyclenews.com →</a><a href="https://hjchelmets.us/blogs/news/i11" target="_blank" rel="noopener">hjchelmets.us →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2025.11 EICMA → 2026</time>
+          <div>
+            <h4>RPHA 72 / RPHA 1 V2 Carbon / C50 MX 등 2026 라인업 공개</h4>
+            <div class="dd-tags"><span class="dd-tag safety">FIM FRHPhe-02</span><span class="dd-tag safety">ECE 22.06</span></div>
+            <p>RPHA 72(경량 복합셸, 공력·소음 개선)가 RPHA 71 후속. RPHA 1 V2 Carbon은 HJC 최초로 FIM Phase-2(FRHPhe-02) 인증 획득, 티타늄 더블D링 채택. ECE 22.05 전용이던 i50을 대체하는 C50 MX는 ECE 22.06 인증. C71, V60, i20도 공개.</p>
+            <div class="dd-sources"><a href="https://www.motorcyclenews.com/bike-kit/news/new-hjc-helmets-2025-6/" target="_blank" rel="noopener">motorcyclenews.com →</a><a href="https://helmetshop.com/blogs/news/hjc-helmets-guide-2026-finding-the-perfect-balance-of-performance-and-value" target="_blank" rel="noopener">helmetshop.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2024–25</time>
+          <div>
+            <h4>RPHA 12 — RPHA 11 후속 플래그십</h4>
+            <div class="dd-tags"><span class="dd-tag safety">ECE 22.06</span><span class="dd-tag material">PIM EVO</span></div>
+            <p>탄소-아라미드, 탄소섬유, 유리섬유, 유기부직포, 리넨섬유를 혼합한 PIM EVO 셸. MotoGP 프로그램에서 파생된 신형 Advanced Channeling Ventilation, 에어로 스포일러, 2-way 래칫 HJ-42 실드.</p>
+            <div class="dd-sources"><a href="https://hjchelmets.us/pages/rpha-12" target="_blank" rel="noopener">hjchelmets.us →</a><a href="https://www.championhelmets.com/us/hjc-rpha-12-matte-black.html" target="_blank" rel="noopener">championhelmets.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2024–25</time>
+          <div>
+            <h4>RPHA 1N — FIM 레이스 인증 모델</h4>
+            <div class="dd-tags"><span class="dd-tag safety">FIM</span><span class="dd-tag safety">ECE 22.06</span></div>
+            <p>HJC 팩토리 라이더가 사용하는 MotoGP/WorldSBK용 사양. DOT FMVSS 218 및 ECE 22.06 충족.</p>
+            <div class="dd-sources"><a href="https://performancecycle.com/hjc-2025-rpha-12n-quartararo-helmet/" target="_blank" rel="noopener">performancecycle.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2024–25</time>
+          <div>
+            <h4>SLID(Sliding Layer Impact Distribution) 도입</h4>
+            <div class="dd-tags"><span class="dd-tag safety">SLID</span></div>
+            <p>HJC 자체 개발 회전충격 완화 기술. 내장재 안쪽 유동성 젤 레이어가 다방향 슬립을 허용해 경사충격 에너지를 분산. i50(Hex/Solid), Furion 3 등에 적용.</p>
+            <div class="dd-sources"><a href="https://hjcsports.com/pages/slid" target="_blank" rel="noopener">hjcsports.com →</a><a href="https://www.revzilla.com/motorcycle/hjc-i50-hex-helmet" target="_blank" rel="noopener">revzilla.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2024–25</time>
+          <div>
+            <h4>2세대 SMART HJC 블루투스 (SENA 공동개발)</h4>
+            <div class="dd-tags"><span class="dd-tag elec">Comms Integration</span></div>
+            <p>후부착형이 아닌 완전 일체형 올인원 통신 유닛. i91 등에 탑재.</p>
+            <div class="dd-sources"><a href="https://hjchelmets.us/pages/i91" target="_blank" rel="noopener">hjchelmets.us →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023</time>
+          <div>
+            <h4>RPHA 71 출시</h4>
+            <div class="dd-tags"></div>
+            <p>2017년형 RPHA 70의 업데이트, RPHA 72 이전 세대.</p>
+            <div class="dd-sources"><a href="https://www.motorcyclenews.com/bike-kit/news/new-hjc-helmets-2025-6/" target="_blank" rel="noopener">motorcyclenews.com →</a></div>
+          </div>
+        </article>
+      </div>
+    </div>
+    </div>
+
+    <div class="subtab-panel" id="subtab-schuberth" data-subtab-panel="schuberth" hidden>
+    <div class="dd-brand" id="dd-schuberth">
+      <div class="dd-brand-head"><span class="dd-dot" style="--dd-dot:var(--dd-schuberth)"></span><h3>Schuberth</h3><span class="count">6건</span></div>
+      <div class="dd-mixed">
+        <article class="entry" data-category="tech" data-date="2026-08-10" data-brand="Schuberth">
+          <div class="entry-bar"></div>
+          <div class="entry-body">
+            <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Schuberth</span><span class="date">2026-08-10</span></div>
+            <h3>S3 Carbon — F1 제조 공정을 적용한 풀카본 쉘 &amp; C5 ANC 모듈러 공개</h3>
+            <p class="desc">S3 Carbon은 슈베르트의 F1 헬멧 제작진과 동일한 공정으로 100% 카본 쉘을 제작해 기존 유리섬유 S3 대비 최대 0.44파운드 경량화. 모듈러형 C5 ANC는 Cardo와 공동 개발한 능동 소음 제거 기술을 탑재, 엔진음·경적 등 필수 음원은 유지하면서 풍절음만 선택적으로 차단.</p>
+            <a class="src" href="https://www.motorcycle.com/bikes/news/schuberth-announces-new-s3-carbon-full-face-and-c5-anc-modular-helmets-44656951" target="_blank" rel="noopener">motorcycle.com →</a>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2025.11 발표 · 2026.03 출시</time>
+          <div>
+            <h4>C5 ANC — 세계 최초 능동소음차단 모듈러 헬멧</h4>
+            <div class="dd-tags"><span class="dd-tag elec">ANC</span></div>
+            <p>Cardo와 공동 개발. 귀에 밀착하는 53mm 스피커가 온보드 전자장치로 저주파 풍절음·노면음을 능동 상쇄(62mph 기준 100–700Hz 대역 최대 10dB 저감, 자체 풍동 측정)하면서 엔진·교통·사이렌 소리는 유지. 유럽 출시가 €799, 2026년 3월 딜러 공급 시작.</p>
+            <div class="dd-sources"><a href="https://ultimatemotorcycling.com/2025/11/06/schuberth-c5-anc-helmet-first-look-active-noise-cancellation/" target="_blank" rel="noopener">ultimatemotorcycling.com →</a><a href="https://www.bennetts.co.uk/bikesocial/news-and-views/news/2025/schuberth-c5-anc-noise-cancelling-helmet" target="_blank" rel="noopener">bennetts.co.uk →</a><a href="https://www.visordown.com/news/schuberth-unveils-c5-active-noise-cancellation-motorcycle-helmet" target="_blank" rel="noopener">visordown.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2025–26</time>
+          <div>
+            <h4>S3 Carbon 풀페이스 발표</h4>
+            <div class="dd-tags"><span class="dd-tag material">100% Carbon</span></div>
+            <p>Schuberth의 F1 드라이버 헬멧과 동일한 인력·공정으로 제작된 100% 카본 셸. 유리섬유 S3 대비 약 0.44lb 경량화.</p>
+            <div class="dd-sources"><a href="https://www.motorcycle.com/bikes/news/schuberth-announces-new-s3-carbon-full-face-and-c5-anc-modular-helmets-44656951" target="_blank" rel="noopener">motorcycle.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2025 (콘셉트)</time>
+          <div>
+            <h4>Schuberth Concept 플립업 헬멧 공개</h4>
+            <div class="dd-tags"><span class="dd-tag material">DFP Fiberglass</span><span class="dd-tag material">Dual-density EPS</span></div>
+            <p>정밀·경량 적층을 위한 Direct Fiber Processing(DFP) 유리섬유 셸. 단계별 에너지 흡수를 위한 듀얼 밀도 EPS. 충돌 시 이탈 방지를 위한 AROS(Anti-Roll-Off System) 계승.</p>
+            <div class="dd-sources"><a href="https://www.1000ps.com/en-us/article/3012476/schuberth-concept-new-flip-up-helmet-for-2025" target="_blank" rel="noopener">1000ps.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023</time>
+          <div>
+            <h4>E2 어드벤처/모듈러 헬멧 출시</h4>
+            <div class="dd-tags"><span class="dd-tag safety">ECE 22.06</span><span class="dd-tag safety">P/J Homologation</span></div>
+            <p>E1 후속, 턱부 개폐 양쪽 모두 합법인 P/J 이중 인증 획득. 탄소섬유로 보강된 유리섬유 셸로 경량화와 충격 흡수력 동시 개선. 풍동에서 개발한 3단 조절식 탈부착 바이저로 버펫팅 저감.</p>
+            <div class="dd-sources"><a href="https://www.advpulse.com/adv-news/schuberth-unveils-next-generation-e2-flip-up-adventure-helmet/" target="_blank" rel="noopener">advpulse.com →</a><a href="https://ultimatemotorcycling.com/2023/04/07/schuberth-e2-review-modular-adventure-helmet-test/" target="_blank" rel="noopener">ultimatemotorcycling.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023</time>
+          <div>
+            <h4>C5 모듈러 — P/J + ECE 22.06 조기 인증</h4>
+            <div class="dd-tags"><span class="dd-tag safety">ECE 22.06</span><span class="dd-tag safety">P/J Homologation</span></div>
+            <p>2024년 EU 강제화 이전에 P/J + 22.06 인증을 획득한 조기 도입 사례. 턱부 개폐 시 바이저가 마지막 위치를 기억하는 메모리 기능, 필터·세척 가능한 턱 벤트 탑재.</p>
+            <div class="dd-sources"><a href="https://www.cyclenews.com/2023/05/article/schuberth-c5-modular-helmet/" target="_blank" rel="noopener">cyclenews.com →</a></div>
+          </div>
+        </article>
+      </div>
+      <div class="dd-coverage-note"><b>커버리지 노트 —</b> Schuberth 공식 사이트는 JS 렌더링으로 직접 수집 불가. 위 항목은 ADV Pulse, Cycle News, Ultimate Motorcycling, Bennetts, Visordown 등 복수 매체 교차 확인.</div>
+    </div>
+    </div>
+
+    <div class="subtab-panel" id="subtab-alpinestars" data-subtab-panel="alpinestars" hidden>
+    <div class="dd-brand" id="dd-alpinestars">
+      <div class="dd-brand-head"><span class="dd-dot" style="--dd-dot:var(--dd-alpinestars)"></span><h3>Alpinestars</h3><span class="count">8건</span></div>
+      <div class="dd-mixed">
+        <article class="dd-entry">
+          <time>2026.04</time>
+          <div>
+            <h4>A-Connect 통신 시스템 출시 — Sena와 공동 개발</h4>
+            <div class="dd-tags"><span class="dd-tag elec">Mesh 3.0</span><span class="dd-tag elec">Bluetooth 5.3</span></div>
+            <p>Alpinestars 최초의 자체 브랜드 통신 시스템으로, Sena와 공동 개발해 S-R7 셸 형상에 맞춰 통합 설계됨. 최대 2km·무제한 인원의 Mesh Intercom 3.0과 셀룰러 기반 WAVE 인터컴 간 자동 전환, 크로스 브랜드 호환을 위한 블루투스 5.3, Harman Kardon 40mm 스피커, AI 노이즈캔슬링, 24시간 통화시간을 지원.</p>
+            <div class="dd-sources"><a href="https://www.alpinestars.com/products/intercom-system-a-connet" target="_blank" rel="noopener">alpinestars.com →</a><a href="https://community.sena.com/hc/en-us/community/posts/48815641999124-Alpinestars-A-Connect-release" target="_blank" rel="noopener">sena community →</a></div>
+          </div>
+        </article>
+        <article class="entry" data-category="product" data-date="2026-03-13" data-brand="Alpinestars">
+          <div class="entry-bar"></div>
+          <div class="entry-body">
+            <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Alpinestars</span><span class="date">2026-03-13</span></div>
+            <h3>S-R7 공개 — 플래그십 S-R10 하위의 스트리트·트랙 겸용 미드레인지 헬멧</h3>
+            <p class="desc">프리프레그 에폭시 레진에 카본·아라미드·유리섬유를 겹친 멀티 컴포지트 쉘과 6단계 밀도로 나눈 7피스 EPS 라이너를 적용한 스트리트·트랙 겸용 모델. 난류를 줄이는 인테그레이티드 스포일러와 측면 윙렛으로 고속 안정성을 높였고 220도 주변 시야각·57도 수직 시야각을 확보했으며 A-Connect 통신 시스템과 연동 가능. 가격은 솔리드 $679.95, 그래픽 $749.95부터.</p>
+            <a class="src" href="https://www.rideapart.com/news/788971/alpinestars-sr-7-specs-features-price/" target="_blank" rel="noopener">rideapart.com →</a>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2026.03.13</time>
+          <div>
+            <h4>Supertech R7(S-R7) 출시 — R10 하위 미드레인지 로드·트랙 헬멧</h4>
+            <div class="dd-tags"><span class="dd-tag material">Carbon/Aramid/Glass Composite</span><span class="dd-tag safety">ECE 22.06</span></div>
+            <p>프리프레그 에폭시 레진에 카본·아라미드·유리섬유를 겹친 멀티 컴포지트 셸과 6단계 밀도로 나눈 7피스 EPS 라이너, 특허받은 회전충격 완화 코팅을 적용. 인테그레이티드 스포일러와 측면 윙렛, 220도 주변·57도 수직 시야각, 광학 1등급 실드(1.6-2.6mm), 10포트 환기(흡기 6·배기 4), A-Head 핏 조절 시스템을 갖췄고 사이즈 M 기준 약 1,390g. A-Connect 통신 시스템 장착 전용 설계이며 가격은 솔리드 $679.95, 그래픽 $749.95부터.</p>
+            <div class="dd-sources"><a href="https://www.cyclenews.com/2026/03/article/alpinestars-supertech-r7-helmet/" target="_blank" rel="noopener">cyclenews.com →</a><a href="https://www.rideapart.com/news/788971/alpinestars-sr-7-specs-features-price/" target="_blank" rel="noopener">rideapart.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2026.02</time>
+          <div>
+            <h4>FIM FRHPhe-02 서킷 레이싱 규격 발효 — 인증 6개 브랜드 중 하나로 등재</h4>
+            <div class="dd-tags"><span class="dd-tag safety">FIM FRHPhe-02</span></div>
+            <p>FIM의 신규 서킷 레이싱 헬멧 표준 FRHPhe-02가 발효되며 Alpinestars가 AGV·MT·Airoh·HJC·LS2와 함께 인증 브랜드로 등재(당시 전 종목 합산 18개 모델 호몰로게이션). 이후 2월 26일 FIM 추가 공지에서 Alpinestars의 XS·S 셸 사이즈 인증이 추가로 등재됨.</p>
+            <div class="dd-sources"><a href="https://www.fim-moto.com/en/news/news-detail/article/circuit-racing-helmets-come-into-force-fim-homologated-under-frhphe-02" target="_blank" rel="noopener">fim-moto.com →</a><a href="https://www.fim-moto.com/en/news/news-detail/article/more-helmets-and-fim-explanations-fim-homologated-helmets-under-frhphe-02" target="_blank" rel="noopener">fim-moto.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2025.10.21</time>
+          <div>
+            <h4>Supertech M10(S-M10), FIM FRHPhe-02 오프로드 인증 획득</h4>
+            <div class="dd-tags"><span class="dd-tag safety">FIM FRHPhe-02</span><span class="dd-tag safety">MIPS</span><span class="dd-tag material">Carbon/Aramid Shell</span></div>
+            <p>Alpinestars의 모토크로스 플래그십 Supertech M10(3K 카본·UD카본·아라미드 셸, 라이선스 MIPS E-2 저마찰 회전충격 레이어 적용, 4개 셸 사이즈, 28포트 환기, FIM 하드웨어 포함 약 1,370g)이 2026년 1월 1일 FIM 의무화를 앞두고 LS2·6D와 함께 조기 인증 브랜드로 FRHPhe-02 규격을 획득.</p>
+            <div class="dd-sources"><a href="https://mxnews-online.com/en/frhphe-02-zwei-neue-auf-der-liste-bell-und-alpinestars/" target="_blank" rel="noopener">mxnews-online.com →</a><a href="https://sixstarracing.com/shop/moto-gear/helmets/alpinestars-supertech-sm10-solid-fim-motocross-helmet-black-glossy-carbon-fim-frhphe-02-approved/" target="_blank" rel="noopener">sixstarracing.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2024.01.30</time>
+          <div>
+            <h4>Supertech R10, 정식 라인업 확대 — 세부 충격 성능 수치 공개</h4>
+            <div class="dd-tags"><span class="dd-tag safety">ECE 22.06</span><span class="dd-tag material">Carbon Composite</span></div>
+            <p>한정판 Launch Edition 완판 이후 팀·엘리먼트 그래픽과 솔리드 컬러로 미국·유럽 정식 출시 확대(2024년 3월까지). ECE 22.06 기준 대비 직선충격 37%, 경사·회전충격 65% 상회하는 성능 수치를 공식 공개했으며 사이즈 M 기준 1,540g, 11포트 환기(흡기 7·배기 4) 구성.</p>
+            <div class="dd-sources"><a href="https://www.cyclenews.com/2024/01/article/alpinestars-supertech-r10-road-racing-helmet/" target="_blank" rel="noopener">cyclenews.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023.06–07</time>
+          <div>
+            <h4>Supertech R10 Launch Edition — 전 세계 200개 한정판 최초 판매</h4>
+            <div class="dd-tags"><span class="dd-tag material">Exposed Carbon Fiber</span></div>
+            <p>R10 최초 공개 이후 처음으로 실제 판매된 버전으로, 노출 카본 마감에 레드 액센트를 적용한 200개 넘버링 한정판을 온라인 타임드 드롭(2023년 7월 10일 오후 6시 CET) 방식으로 판매. 이후 정식 라인업과 동일한 ECE 22.06·DOT·FIM 인증 멀티 컴포지트 셸을 사용.</p>
+            <div class="dd-sources"><a href="https://www.alpinestars.com/pages/sr10" target="_blank" rel="noopener">alpinestars.com →</a><a href="https://www.rideapart.com/news/673207/alpinestars-launch-supertech-r10-race-helmet/" target="_blank" rel="noopener">rideapart.com →</a></div>
+          </div>
+        </article>
+        <article class="dd-entry">
+          <time>2023.02</time>
+          <div>
+            <h4>Supertech R10 최초 공개 — MotoGP 라이더와 10년 공동 개발한 플래그십</h4>
+            <div class="dd-tags"><span class="dd-tag material">3K Carbon/UD-Carbon/Aramid</span><span class="dd-tag safety">ECE 22.06</span><span class="dd-tag safety">FIM</span></div>
+            <p>안드레아 도비지오소·호르헤 마르틴·잭 밀러 등 MotoGP 라이더들과 10년에 걸쳐 개발한 Alpinestars의 로드 레이싱 플래그십. 3K 카본·UD카본·아라미드·유리섬유를 에폭시 레진으로 적층한 멀티레이어 셸에 CFD 풍동 개발 형상, 특허받은 탈착식 마운트의 로드·레이스 겸용 리어 스포일러, 일체형 윙렛, 220도/57도 주변·수직 시야각을 적용했고, 이전 세대 대비 드래그 4.54% 감소를 주장.</p>
+            <div class="dd-sources"><a href="https://ultimatemotorcycling.com/2023/02/16/alpinestars-supertech-r10-helmet-first-look-10-fast-facts/" target="_blank" rel="noopener">ultimatemotorcycling.com →</a></div>
+          </div>
+        </article>
+      </div>
+      <div class="dd-coverage-note"><b>커버리지 노트 —</b> Alpinestars 공식 사이트(alpinestars.com)에는 헬멧 관련 날짜별 뉴스·보도자료 아카이브가 없어(뉴스 섹션은 레이싱 결과 위주), 위 항목의 시점은 RideApart·Cycle News·Ultimate Motorcycling·FIM 공식 발표 등 업계 매체 교차 확인으로 재구성됨. Alpinestars 헬멧은 자체 명명된 회전충격 기술 대신 라이선스 MIPS를 사용하며, Snell 인증 모델은 확인되지 않음(ECE 22.06·DOT·FIM 인증 중심).</div>
+    </div>
+    </div>
+
+    <div class="subtab-panel entries-card" id="subtab-sena" data-subtab-panel="sena" hidden>
+    <h3 class="brand-group-head">Sena <span class="count">8</span></h3>
+    <article class="entry" data-category="product" data-date="2026-07-31" data-brand="Sena">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Sena</span><span class="date">2026-07-31</span></div>
+        <h3>Phantom XB — 베이스 강화 음향 챔버 탑재 스마트 헬멧, $599 출시</h3>
+        <p class="desc">2세대 HD 스피커와 저음 전달을 위한 전용 음향 챔버·치크패드를 새로 적용한 Phantom 라인 파생 모델. 블루투스 5.3 기반 Mesh Intercom 3.0·WAVE Intercom(최대 1.2마일, 오픈 메시 6채널·그룹 메시 24인), 35시간 통화시간을 지원하며 5년 보증이 제공됨.</p>
+        <a class="src" href="https://ultimatemotorcycling.com/2026/07/31/sena-phantom-xb-helmet-first-look-bass-tuned-audio-for-599/" target="_blank" rel="noopener">ultimatemotorcycling.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="product" data-date="2026-07-07" data-brand="Sena">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Sena</span><span class="date">2026-07-07</span></div>
+        <h3>VORTEX — 합리적 가격의 2인용 블루투스 인터컴 출시</h3>
+        <p class="desc">최대 27시간 통화시간, 2세대 40mm HD 스피커, 원터치 퀵페어 버튼, 무선충전 지원, IPX7 방수를 갖춘 보급형 2인용 인터컴. 단품 £139부터.</p>
+        <a class="src" href="https://www.sena.com/en-eu/stories/news/sena-introduces-vortex-versatile-high-value-bluetooth-communication-system-built-for-everyday-riders/" target="_blank" rel="noopener">sena.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="tech" data-date="2026-07-02" data-brand="Sena">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Sena</span><span class="date">2026-07-02</span></div>
+        <h3>60X — 슬림 프로필의 Bose 사운드 인터컴 출시</h3>
+        <p class="desc">60S EVO에 적용된 Sound by Bose 오디오 기술을 더 얇고 세련된 프로필로 재구성한 신모델. Mesh Intercom 3.0과 블루투스 5.0을 동시 지원.</p>
+        <a class="src" href="https://www.sena.com/en-eu/stories/news/sena-introduces-the-technology-packed-60x-with-sound-by-bose-technology-and-a-sleek-modern-profile/" target="_blank" rel="noopener">sena.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="tech" data-date="2026-06-25" data-brand="Sena">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Sena</span><span class="date">2026-06-25</span></div>
+        <h3>MeshON — 모든 블루투스 헤드셋을 메시 인터컴으로 바꾸는 브릿지 출시</h3>
+        <p class="desc">헬멧에 내장된 블루투스 전용 헤드셋에 부착해 세나의 Mesh Intercom 네트워크에 합류시켜주는 소형 브릿지 디바이스. 스마트 헬멧이 아니어도 메시 그룹 통신을 가능하게 함.</p>
+        <a class="src" href="https://www.sena.com/en-eu/stories/news/sena-launches-meshon-bringing-mesh-intercom-communication-to-any-bluetooth-motorcycle-headset/" target="_blank" rel="noopener">sena.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="tech" data-date="2026-05-18" data-brand="Sena">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Sena</span><span class="date">2026-05-18</span></div>
+        <h3>60S EVO — Bose 사운드 탑재 플래그십 인터컴, 업계 최초 평생 보증 도입</h3>
+        <p class="desc">Bose WaveForm Audio Engine과 Sound Design Tuning을 적용해 풍절음·엔진음이 많은 라이딩 환경에 맞춘 음향을 구현. Mesh Intercom 3.0, AI 노이즈 컨트롤, ANC 이어버드 네이티브 지원과 함께 업계 최초의 Limited Lifetime Warranty를 도입.</p>
+        <a class="src" href="https://www.sena.com/en-us/stories/news/sena-reveals-the-60s-evo-the-next-evolution-of-flagship-motorcycle-communication-featuring-sound-by-bosetechnology-and-limited-lifetime-warranty/" target="_blank" rel="noopener">sena.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="tech" data-date="2026-04-10" data-brand="Sena">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Sena</span><span class="date">2026-04-10</span></div>
+        <h3>Outlander — 통신·조명 일체형 첫 어드벤처 스마트 헬멧 정식 출시</h3>
+        <p class="desc">듀얼스포츠 헬멧 최초로 Mesh Intercom 3.0과 셀룰러 기반 Wave Intercom, Harman Kardon 오디오, AI 노이즈 컨트롤을 기본 내장. 턱쪽에 헤드라이트, 후미에는 감속 시 자동 점등되는 브레이크등을 통합했으며 복합 유리섬유 쉘과 다중 밀도 EPS 라이너로 제작(MSRP $599).</p>
+        <a class="src" href="https://www.sena.com/en-us/stories/news/sena-announces-availability-of-the-new-outlander-dual-sport-smart-motorcycle-helmet/" target="_blank" rel="noopener">sena.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="product" data-date="2026-03-24" data-brand="Sena">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Sena</span><span class="date">2026-03-24</span></div>
+        <h3>Specter 공개 — 2세대 Harman Kardon 오디오 탑재 모듈러 스마트 헬멧</h3>
+        <p class="desc">2세대 Harman Kardon 스피커와 유선 붐 마이크로 음질을 강화하고 AI 기반 노이즈 캔슬링으로 주행 소음 속에서도 또렷한 음성 전달을 구현한 모듈러 스마트 헬멧. 메시·셀룰러 인터컴을 모두 지원하며 후미 러닝·브레이크 테일라이트를 통합. DOT·ECE R22.06 인증에 P/J 듀얼 호몰로게이션을 획득했고, M 사이즈 기준 1.6kg, 가격 $649.</p>
+        <a class="src" href="https://ultimatemotorcycling.com/2026/03/24/sena-specter-first-look-smart-modular-motorcycle-helmet/" target="_blank" rel="noopener">ultimatemotorcycling.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="product" data-date="2024-11" data-brand="Sena">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Sena</span><span class="date">2024-11</span></div>
+        <h3>60S 플래그십 — Wave Intercom(셀룰러 기반) 출시</h3>
+        <p class="desc">셀룰러 네트워크를 활용해 사실상 거리 제한 없는 라이더 간 통신을 제공하는 Wave Intercom 기술을 탑재한 플래그십 인터컴 모델 출시.</p>
+        <a class="src" href="https://www.insightaceanalytic.com/report/motorcycle-connected-helmet-market/3630" target="_blank" rel="noopener">insightaceanalytic.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="subtab-panel entries-card" id="subtab-cardo" data-subtab-panel="cardo" hidden>
+    <h3 class="brand-group-head">Cardo Systems <span class="count">6</span></h3>
+    <article class="entry" data-category="tech" data-date="2026-08-20" data-brand="Cardo Systems">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Cardo Systems</span><span class="date">2026-08-20</span></div>
+        <h3>카르도, '메시 부스트' 업데이트 출시 — 다이내믹 메시 그룹 통신 31명까지 확장</h3>
+        <p class="desc">카르도 시스템즈가 2세대 팩토크(PACKTALK PRO/EDGE/NEO) 대상 무료 OTA 소프트웨어 업데이트 '메시 부스트'를 발표했다. 다이내믹 메시 커뮤니케이션(DMC) 그룹 최대 인원을 기존 15명에서 31명으로 두 배 이상 확장했다. 사전 페어링 없이 인근 카르도 사용자와 대화하는 '퍼블릭 메시', QR코드·링크로 초대해 자동 연결되는 '리모트 그루핑' 기능이 새로 추가됐다.</p>
+        <a class="src" href="https://ultimatemotorcycling.com/2026/08/20/cardo-mesh-boost-doubles-packtalk-group-size-to-31-riders/" target="_blank" rel="noopener">ultimatemotorcycling.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="tech" data-date="2026-08-12" data-brand="Cardo Systems">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Cardo Systems</span><span class="date">2026-08-12</span></div>
+        <h3>Beyond GT/GTS — 충돌 감지·ANC·브레이크 라이트 통합 스마트 헬멧, 미국 여름 출시 임박</h3>
+        <p class="desc">블루투스 커뮤니케이션, ANC 스피커, 전방 LED 상태등, 통합 선바이저와 함께 충돌 감지(collision detection) 및 후미 브레이크 라이트 기능까지 결합한 풀페이스 모델. 각 $949·$1199로 미국 시장 진입을 앞두고 있음.</p>
+        <a class="src" href="https://cardosystems.com/pages/cardo-beyond-press-release" target="_blank" rel="noopener">cardosystems.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="tech" data-date="2026-08-11" data-brand="Cardo Systems">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Cardo Systems</span><span class="date">2026-08-11</span></div>
+        <h3>Cardo Ride Pro, 애플 카플레이·안드로이드 오토 지원 시작</h3>
+        <p class="desc">Cardo Ride 앱의 프리미엄 등급 Ride Pro가 호환 오토바이 TFT 디스플레이 및 애프터마켓 스크린에서 애플 카플레이·안드로이드 오토를 직접 지원하기 시작. 스마트폰 화면 대신 계기반에서 내비게이션과 라이딩 정보를 바로 확인할 수 있게 되어, 커뮤니케이션·내비게이션·디지털 도구를 통합하는 Cardo 생태계가 한층 확장됨.</p>
+        <a class="src" href="https://www.motorcyclenews.com/news/new-tech/2026/august/cardo-announce-carplay-and-android-auto-update/" target="_blank" rel="noopener">motorcyclenews.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="tech" data-date="2026-07-08" data-brand="Cardo Systems">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Cardo Systems</span><span class="date">2026-07-08</span></div>
+        <h3>Cardo Beyond GTS, 2026 레드닷 디자인 어워드 수상</h3>
+        <p class="desc">세계적 권위의 디자인 공모전 Red Dot Award: Product Design 2026에서 Cardo의 신형 스마트 헬멧 Beyond GTS가 수상. 헬멧에 내장된 Packtalk Pro 통신 시스템(최대 31명 동시 연결), 통합 리어 브레이크 라이트, 충돌 감지, 헬멧 구조 상태를 상시 점검하는 헬멧 헬스 시스템 등 안전과 사용자 경험을 결합한 설계가 높은 평가를 받음.</p>
+        <a class="src" href="https://cardosystems.com/blogs/cardo-blog/beyond-red-dot-award" target="_blank" rel="noopener">cardosystems.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="tech" data-date="2026-06-24" data-brand="Cardo Systems">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Cardo Systems</span><span class="date">2026-06-24</span></div>
+        <h3>Venture 공개 — Leatt 360 터빈 기술 결합한 첫 오프로드 통합 스마트 헬멧</h3>
+        <p class="desc">회전 충격을 줄이는 Leatt의 360도 터빈 기술과 4단계 밀도 충격 폼, 3-in-1 세이프티 구조를 적용한 카르도 최초의 오프로드 전용 스마트 헬멧. JBL과 공동 개발한 2세대 DMC 통신 모듈을 내장해 최대 15명·1.6km 범위의 그룹 통신을 지원하며 DOT·ECE 22.06 인증, 가격 $799(5년 헬멧 보증·3년 전자장치 보증 포함).</p>
+        <a class="src" href="https://powersportsbusiness.com/news/distributors-aftermarket/2026/06/24/cardo-enters-smart-helmet-segment-with-integrated-off-road-lid/" target="_blank" rel="noopener">powersportsbusiness.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="tech" data-date="2026-04-08" data-brand="Cardo Systems">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Cardo Systems</span><span class="date">2026-04-08</span></div>
+        <h3>카르도, 쇼에이 3세대 헬멧 전용 내장형 통신기 'PACKTALK-S'·'4X-S' 출시</h3>
+        <p class="desc">기존 클램프 부착 방식 대신 GT-Air 3·Neotec 3·J-Cruise 3 등 쇼에이 3세대 헬멧에 마련된 통신장치 전용 캐비티에 맞춰 내장되는 팩토리핏 설계로 공력·착용감을 그대로 유지. 4X-S는 JBL 40mm 스피커를 탑재해 최대 4인 그룹 통신(최대 3.6km, 4인 동시 연결 시 약 1.2km)을 지원하고 OTA 업데이트와 IP65 방수를 갖췄으며 가격은 $274.95.</p>
+        <a class="src" href="https://americansporttouring.com/cardo-launches-packtalk-s-and-4x-s-for-shoei-gen-3-helmets/" target="_blank" rel="noopener">americansporttouring.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="subtab-panel entries-card" id="subtab-ruroc" data-subtab-panel="ruroc" hidden>
+    <h3 class="brand-group-head">Ruroc <span class="count">4</span></h3>
+    <article class="entry" data-category="tech" data-date="2026-08" data-brand="Ruroc">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Ruroc</span><span class="date">2026-08</span></div>
+        <h3>루록, 브랜드 최초 어드벤처·듀얼스포츠 헬멧 프리프로덕션 시승 공개 — Rheon 회전충격 기술 탑재</h3>
+        <p class="desc">루록이 처음 선보이는 어드벤처·듀얼스포츠 헬멧의 프리프로덕션 프로토타입을 영국 매체 MCN에 시승 공개. 방향성 에너지 흡수 소재인 Rheon 세이프티 테크놀로지로 회전 충격을 줄이고, Shockwave 통합 인터컴 장착을 위한 사전 배선과 Twiceme NFC 응급정보 칩을 적용했다. 기존 루록 라인 대비 늘어난 전면·측면 환기구, 배기구가 있는 후미 스포일러, 로우드래그 피크를 갖췄으며 양산 모델은 2027년 봄 출시 예정.</p>
+        <a class="src" href="https://www.motorcyclenews.com/bike-kit/news/2026-kit-news/august/ruroc-adventure-helmet-first-ride/" target="_blank" rel="noopener">motorcyclenews.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="product" data-date="2026-07-27" data-brand="Ruroc">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Ruroc</span><span class="date">2026-07-27</span></div>
+        <h3>루록, 서킷 전용 한정판 'AT4 TRACK Verde' 공개 — ACU 골드 인증, 전 세계 200개 한정</h3>
+        <p class="desc">기존 AT4 카본 플랫폼을 서킷 주행에 맞춰 경량화·단순화한 한정판 레이스 헬멧. ACU 골드 인증을 획득했고 전용 트랙 라이너, 레이싱 규정에 맞춘 더블 D링 체결 방식, 고속 안정성을 위해 공장에서 연장한 트랙 스포일러, 강화된 바이저 씰을 적용. 클리어·다크 틴트 바이저를 기본 제공하며 전 세계 200개 한정 생산, 가격 $749.</p>
+        <a class="src" href="https://www.motorcyclepowersportsnews.com/ruroc-unveils-at4-track-verde/" target="_blank" rel="noopener">motorcyclepowersportsnews.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="product" data-date="2026-06" data-brand="Ruroc">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Ruroc</span><span class="date">2026-06</span></div>
+        <h3>AT4.0 카본 골드 크롬 한정판 공개 — 전 세계 200개 한정 리퀴드 골드 마감</h3>
+        <p class="desc">8단계 나노 도장 공정으로 각 쉘을 수작업 스프레이해 거울 같은 리퀴드 골드 마감을 구현한 AT4.0 카본의 한정판. 회전 충격을 줄이는 Rheon 프로텍션을 적용했고 ECE 22.06·DOT 인증에 SHARP 4성 등급을 획득했으며 Shockwave 인터컴과 호환 가능. 전 세계 200개만 생산되며 개별 넘버링된 골드 태그와 인증 스티커가 포함되고, 가격은 £475·$625·€625.</p>
+        <a class="src" href="https://www.rideapart.com/news/799072/ruroc-at40-carbon-gold-chrome-helmet-limited-edition/" target="_blank" rel="noopener">rideapart.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="tech" data-date="2026-03" data-brand="Ruroc">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Ruroc</span><span class="date">2026-03</span></div>
+        <h3>EOX 2.0 — Rheon 충격 기술을 헤드라이너에 통합, 인테리어 전면 재설계</h3>
+        <p class="desc">직선·회전 충격에 반응해 부상 위험을 낮추는 Rheon Impact Technology를 헤드라이너에 내장하고, 고속 주행 시 풍절음을 낮추도록 실내 구조를 전면 재설계. 기존 대비 25% 얇아진 프리미엄 메리노 울 라이너와 인체공학적 치크패드로 착용감도 개선.</p>
+        <a class="src" href="https://www.motorcyclenews.com/bike-kit/news/2026-kit-news/march/ruroc-eox-2-0-release/" target="_blank" rel="noopener">motorcyclenews.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="subtab-panel entries-card" id="subtab-airoh" data-subtab-panel="airoh" hidden>
+    <h3 class="brand-group-head">Airoh <span class="count">4</span></h3>
+    <article class="entry" data-category="tech" data-date="2026-06-15" data-brand="Airoh">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Airoh</span><span class="date">2026-06-15</span></div>
+        <h3>아이로, 2027년형 오프로드 라인업 5종 공개 — 플래그십 Aviator 3 EVO에 ECE 22.06·FIM Racing 02 듀얼 인증</h3>
+        <p class="desc">모토크로스·엔듀로용 신규 라인업 5종(Aviator 3 EVO·Aviator III·Aviator Ace II·Twist III·Wraaap)을 공개. 플래그십 Aviator 3 EVO는 HPC 카본 쉘에 AMS² EVO·AMLS·AEFR·Hydra System 등 세이프티 기술을 총동원해 최상위 레이싱 규격인 FIM Racing 02와 ECE 22.06을 동시 인증받았으며 가격은 €859. 입문용 트리플 HRT 쉘의 윈드터널 개발 모델 Wraaap는 €159.99부터 시작.</p>
+        <a class="src" href="https://www.rideapart.com/news/798398/airoh-helmets-2027-lineup-enduro-offroad-motorcycle/" target="_blank" rel="noopener">rideapart.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="tech" data-date="2026-05" data-brand="Airoh">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Airoh</span><span class="date">2026-05</span></div>
+        <h3>AMS² EVO 안전 시스템 상세 공개 — 직선·회전 충격 동시 대응 구조</h3>
+        <p class="desc">엘라스토머 소재와 보강된 내부 구조로 직선 충격뿐 아니라 실제 사고에서 흔한 회전 충격까지 관리하도록 설계된 2세대 세이프티 시스템. 크라운 패딩에 통합된 3D 패브릭 레이어 ASN(Airoh Sliding Net)이 회전력 분산을 돕고, 응급 상황에서 치크패드를 신속히 분리하는 AEFR, 마그네틱 방식으로 내장재를 고정하는 AMLS를 함께 적용. Aviator Factory·Aviator 3 EVO 등 신규 오프로드 플래그십에 우선 탑재.</p>
+        <a class="src" href="https://www.motorcyclenews.com/bike-kit/news/2026-kit-news/may/airoh-ams2-evo-helmet-safety-tech-explained/" target="_blank" rel="noopener">motorcyclenews.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="product" data-date="2026-03-24" data-brand="Airoh">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Airoh</span><span class="date">2026-03-24</span></div>
+        <h3>H.21 공개 — 풀카본 6K 쉘 적용 초경량 2-in-1 제트 헬멧</h3>
+        <p class="desc">풀카본 6K와 컴포지트 카본 두 가지 쉘로 제작되어 각각 약 1,290g·1,330g의 경량화를 달성한 어반 제트 헬멧. 3가지 쉘 사이즈로 XS~3XL 전 사이즈를 커버하고 익스트라 와이드 바이저, 통합 선스크린 바이저, 마이크로메트릭 리텐션 시스템을 적용. 가격은 €259(컴포지트 카본)·€299(풀카본 6K)부터.</p>
+        <a class="src" href="https://www.rideapart.com/news/791264/airoh-h21-specs-features-price/" target="_blank" rel="noopener">rideapart.com →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="product" data-date="2026-03-11" data-brand="Airoh">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Airoh</span><span class="date">2026-03-11</span></div>
+        <h3>J110 "모탈컴뱃" 모듈러 공개 — 안면부 탈부착식 2-in-1 헬멧</h3>
+        <p class="desc">기존 플립업 방식과 달리 입·코를 덮는 안면부가 통째로 탈착되는 독특한 개폐 구조를 적용한 모듈러 헬멧. XS~M, L~XXL 두 가지 쉘 사이즈의 컴포지트 카본 쉘로 제작했으며 ECE 22.06과 P/J 듀얼 인증을 획득했고, 오디오·블루투스 시스템 장착이 가능. 가격 €259.99.</p>
+        <a class="src" href="https://www.rideapart.com/news/789565/airoh-j110-modular-motorcycle-helmet/" target="_blank" rel="noopener">rideapart.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="subtab-panel entries-card" id="subtab-caberg" data-subtab-panel="caberg" hidden>
+    <h3 class="brand-group-head">Caberg <span class="count">3</span></h3>
+    <article class="entry" data-category="tech" data-date="2026-06-23" data-brand="Caberg">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Caberg</span><span class="date">2026-06-23</span></div>
+        <h3>Tanami / Tanami Carbon — 마그네틱 전환식 온·오프로드 겸용 어드벤처 헬멧</h3>
+        <p class="desc">마그네틱 체결 방식의 친벤트 커버·리어 익스트랙터 커버를 활용해 온로드형과 오프로드형 환기 설정을 수 초 만에 전환하는 구조. 유리섬유(Tanami)와 카본(Tanami Carbon) 두 가지 쉘 옵션에 ECE 22.06 인증.</p>
+        <a class="src" href="https://www.caberg.it/mondo-caberg/en/2026/06/23/adventure-helmet-touring-and-off-road-riding/" target="_blank" rel="noopener">caberg.it →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="product" data-date="2026-04-20" data-brand="Caberg">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Caberg</span><span class="date">2026-04-20</span></div>
+        <h3>Trip 공개 — 턱보호대가 180도 반전되는 세계 최초 '플립백' 구조 헬멧</h3>
+        <p class="desc">단일 피벗 축으로 턱보호대(친가드) 전체가 180도 뒤집혀 오픈페이스 형태로 전환되는 독자적인 플립백 메커니즘을 적용한 신모델. ECE 22.06 P/J 듀얼 인증을 획득했으며 2026년 4월부터 판매 시작.</p>
+        <a class="src" href="https://www.caberg.it/mondo-caberg/en/2026/04/20/caberg-trip-reversible-flip-up-helmet-2026/" target="_blank" rel="noopener">caberg.it →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="product" data-date="2026-04-08" data-brand="Caberg">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Caberg</span><span class="date">2026-04-08</span></div>
+        <h3>Roxter 공개 — 가성비 중심의 일상용 스포티 풀페이스 헬멧</h3>
+        <p class="desc">도심·근교 라이딩을 겨냥한 ECE 22.06 인증 풀페이스 헬멧으로, 두 가지 쉘 사이즈(XS~XXL)에 저속에서도 효과적인 환기 시스템, 세척 가능한 내장재, 기본 제공되는 Pinlock 30 안티포그 렌즈를 갖췄다. Caberg의 통신 시스템 'Pro Speak Evo'와 연동 가능하며 가격은 솔리드 €109.99, 그래픽 €139.99부터.</p>
+        <a class="src" href="https://www.caberg.it/mondo-caberg/en/2026/04/08/caberg-roxter-full-face-helmet-2026/" target="_blank" rel="noopener">caberg.it →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="subtab-panel entries-card" id="subtab-gopro" data-subtab-panel="gopro" hidden>
+    <h3 class="brand-group-head">GoPro / Forcite <span class="count">2</span></h3>
+    <article class="entry" data-category="tech" data-date="2026-08-27" data-brand="GoPro · AGV · Forcite">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">GoPro · AGV · Forcite</span><span class="date">2026-08-27</span></div>
+        <h3>GoPro, AGV·Forcite 합작 스마트 헬멧 특허 공개 — 마이크 배열 기반 저비용 사각지대 감지</h3>
+        <p class="desc">2024년 인수한 Forcite와 AGV의 헬멧 개발 협업을 기반으로, GoPro가 턱보호대에 플러시 장착된 카메라와 라이더 육성 녹음용 내향 마이크, 바이저 상단에 내비게이션 방향 등을 색·패턴으로 투사하는 멀티컬러 LED 배열을 담은 헬멧 특허를 공개. 후방 지향 마이크 배열이 주변 소음을 머신러닝으로 분석하고 가속도계로 라이더 머리 움직임을 추적해, 카메라·레이더 없이도 저비용으로 사각지대 차량의 위치·거리를 감지하는 방식을 채택.</p>
+        <a class="src" href="https://amcn.com.au/editorial/gopro-patents-motorcycle-helmet/" target="_blank" rel="noopener">amcn.com.au →</a>
+      </div>
+    </article>
+    <article class="entry" data-category="tech" data-date="2024-04" data-brand="GoPro / Forcite">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">GoPro × Forcite</span><span class="date">2024</span></div>
+        <h3>GoPro, Forcite Helmet Systems 인수</h3>
+        <p class="desc">액션캠 업체 GoPro가 스마트 헬멧 스타트업 Forcite를 인수하며 카메라·헬멧·소프트웨어 통합형 기술 헬멧 개발 가속.</p>
+        <a class="src" href="https://www.kaxhelmet.com/blog/future-of-full-face-helmets-innovations-and-trends/" target="_blank" rel="noopener">kaxhelmet.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="subtab-panel entries-card" id="subtab-other" data-subtab-panel="other" hidden>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">GRACSHAW <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-09-07" data-brand="GRACSHAW">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">GRACSHAW</span><span class="date">2026-09-07</span></div>
+        <h3>"GRACSHAW × 건담" 한정판 헬멧 컬렉션 공개 — RX-78-2·자쿠 II 등 3종, 전 세계 3,000개 한정</h3>
+        <p class="desc">말레이시아 헬멧 브랜드 GRACSHAW가 '기동전사 건담'과 공식 라이선스 협업을 맺고 한정판 헬멧 컬렉션을 출시. 듀얼 바이저 오픈페이스 쉘 'Glaive'를 기반으로 RX-78-2 건담(1,500개)·샤아 전용기 MS-06S 자쿠 II(1,000개)·양산형 MS-06F 자쿠 II(500개) 등 3종 도장을 적용했으며 전 세계 총 3,000개 한정 생산. 개별 넘버링 컬렉터스 카드와 건담 테마 더스트백이 포함되며 가격은 각 RM498.</p>
+        <a class="src" href="https://shop.gracshaw.com/shop/limitededitiongracshawxmobilesuitgundamhelmet" target="_blank" rel="noopener">gracshaw.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Vega · Axor <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-08-20" data-brand="Vega · Axor">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Vega · Axor</span><span class="date">2026-08-20</span></div>
+        <h3>베가 액소르, 'MX 카본' 헬멧 출시 — 1,050g 세계 최경량 3중 인증 오프로드 헬멧</h3>
+        <p class="desc">인도 베가 오토가 산하 브랜드 액소르를 통해 오프로드용 카본 헬멧 'MX 카본'을 출시했다. ISI·DOT·ECE 22.06 3중 인증 헬멧 중 세계 최경량인 1,050g(±50g)을 구현했으며, 3K 카본 파이버에 아라미드 섬유와 항공우주급 유리섬유를 결합한 삼중 복합 구조를 채택했다. 카르나타카 벨라가비 공장에서 생산되며 가격은 2만60루피, M~2XL 사이즈로 출시된다.</p>
+        <a class="src" href="https://www.rushlane.com/axor-mx-carbon-helmet-launch-price-rs-20k-isi-ece-dot-certified-1050g-weight-12553757.html" target="_blank" rel="noopener">rushlane.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">OUMURS <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-08-14" data-brand="OUMURS">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">OUMURS</span><span class="date">2026-08-14</span></div>
+        <h3>OUMURS, 보급형 듀얼 인증 풀페이스 헬멧 '361S' 출시 — DOT·ECE 22.06 동시 획득</h3>
+        <p class="desc">중저가 세그먼트 브랜드 OUMURS가 ABS 쉘·EPS 라이너 구조의 데일리 라이딩용 풀페이스 헬멧 361S를 출시. 5개 흡기·2개 배기로 구성된 3포인트 조절식 환기 시스템과 쿨맥스 내장재·반사 스트립, 더블 D링 체결, 클리어·틴트 2종 바이저를 갖췄으며 보급형 헬멧으로는 드물게 미국 DOT FMVSS 218과 유럽 ECE 22.06(회전·경사 충격 평가 포함)을 동시에 획득. 아마존·자사몰·틱톡숍·이베이 등에서 판매 중.</p>
+        <a class="src" href="https://www.pr.com/press-release/975814" target="_blank" rel="noopener">pr.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Simpson <span class="count">1</span></h3>
+    <article class="entry" data-category="tech" data-date="2026-08-09" data-brand="Simpson">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Simpson</span><span class="date">2026-08-09</span></div>
+        <h3>2026 라인업에 Twiceme 응급 안전 기술 통합</h3>
+        <p class="desc">새 그래픽, DOT/ECE 인증 M30 모델, Forged Carbon 라인 확장과 함께, 사고 시 응급 구조대가 스캔해 라이더의 의료정보·비상연락처를 즉시 확인할 수 있는 Twiceme 스마트 세이프티 기술을 헬멧에 통합.</p>
+        <a class="src" href="https://www.simpsonmotorcyclehelmets.com/blog/post/simpson_revamps_2026_motorcycle_helmets_with_new_designs_m30_model_twiceme_safety/" target="_blank" rel="noopener">simpsonmotorcyclehelmets.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">MY HELMETS <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-08-07" data-brand="MY HELMETS">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">MY HELMETS</span><span class="date">2026-08-07</span></div>
+        <h3>FF961 어드벤처 모듈러 헬멧, 글로벌 출시 예고</h3>
+        <p class="desc">탈부착 가능한 피크로 어드벤처↔모듈러 형태를 전환할 수 있고, 다중 환기구, 블루투스 커뮤니케이션 장착 홈, 내장 선바이저를 갖춤. ECE 22.06·DOT 인증 기반으로 60개국 이상에 유통 예정.</p>
+        <a class="src" href="https://www.openpr.com/news/4597794/my-helmets-announces-the-upcoming-global-launch-of-the-ff961" target="_blank" rel="noopener">openpr.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Touratech <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-07-29" data-brand="Touratech">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Touratech</span><span class="date">2026-07-29</span></div>
+        <h3>Aventuro Gravel Carbon 공개 — 초경량 X-PRO 카본 쉘의 어드벤처 플래그십</h3>
+        <p class="desc">온로드·그래블·트레일을 넘나드는 라이더를 겨냥한 신규 플래그십 어드벤처 헬멧. 고강도 X-PRO 카본 쉘로 라지 사이즈(피크·바이저 포함) 기준 약 1,500g의 경량화를 달성했고, EPS 레이어 사이에 고무 스트립을 넣은 방진 구조로 풍절음과 목 피로를 줄였다. X-mart Dry 원단 내장재와 액션캠 마운트를 갖췄으며 ECE 22.06·DOT 인증, 가격은 €749부터.</p>
+        <a class="src" href="https://www.motorcycle.com/bikes/news/touratech-introduces-aventuro-gravel-carbon-adventure-helmet-44668810" target="_blank" rel="noopener">motorcycle.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Daytona Helmets <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-07-13" data-brand="Daytona Helmets">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Daytona Helmets</span><span class="date">2026-07-13</span></div>
+        <h3>C6 Pro Carbon 공개 — 풀카본 쉘 적용 데일리용 모듈러 헬멧, P/J 듀얼 인증</h3>
+        <p class="desc">미국 브랜드 데이토나 헬멧스의 프리미엄 모듈러 라인. 풀카본 쉘과 카본 친가드, 듀얼 밀도 EPS 라이너를 적용했고 두 가지 쉘 사이즈(XS-M·L-2XL)로 무게는 약 1.54~1.65kg. ECE 22.06 인증에 턱부를 열고 닫은 상태 모두 합법인 P/J 듀얼 호몰로게이션을 획득했으며, 광량에 따라 자동 조광되는 포토크로믹 아우터 실드와 풀커버리지 드롭다운 선바이저, Pinlock 120 렌즈를 기본 제공. 인터컴 스피커포켓을 내장했고 가격은 £699.95.</p>
+        <a class="src" href="https://www.motorcyclenews.com/bike-kit/helmets/daytona-c6-pro-carbon-helmet/" target="_blank" rel="noopener">motorcyclenews.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Nexx <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-06-30" data-brand="Nexx">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Nexx</span><span class="date">2026-06-30</span></div>
+        <h3>X.R5R 공개 — 슬라이드형 탈부착 스포일러·메모리폼 내장재 적용한 신형 스포츠 헬멧</h3>
+        <p class="desc">포르투갈 브랜드 넥스가 창립 25주년 행사에서 공개한 기존 X.R3R 상위 스포츠 헬멧. 나사 고정 대신 슬라이드 삽입식으로 바꾼 대형 리어 스포일러, 360도 맞춤 핏을 위해 교체 가능한 메모리폼 내장재(비상 탈거 시스템 포함), 트랙 주행 시 실드가 풀리지 않도록 하는 락 메커니즘을 적용했다. 모든 플라스틱 부품이 교체 가능하며 4개 쉘 사이즈로 전개, 11월 EICMA 이후 출고 예정. 가격은 솔리드 €499, 그래픽 €599, 카본 마감 약 €750, FIM 2급 카본 버전 €999부터.</p>
+        <a class="src" href="https://www.motorcyclenews.com/bike-kit/news/2026-kit-news/june/nexx-x-r5r/" target="_blank" rel="noopener">motorcyclenews.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">KLIM <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-05-22" data-brand="KLIM">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">KLIM</span><span class="date">2026-05-22</span></div>
+        <h3>GT1 Expedition 공개 — 카본 쉘 + Koroyd 적용 첫 모듈러 투어링 헬멧</h3>
+        <p class="desc">3K 프리프레그 카본 파이버로 쉘과 친바까지 제작한 어드벤처·투어링용 모듈러 헬멧으로, 모듈러 투어링 헬멧 최초로 충격 흡수 소재 Koroyd를 적용했다고 소개됨. 3가지 쉘 사이즈·5단계 EPS 밀도로 XS~3XL 전 사이즈에 걸쳐 보호 성능을 맞췄고, 클리어·포토크로믹 바이저(광학 1등급)와 Pinlock 방담 렌즈를 기본 제공. ECE 22.06·DOT 인증, 가격 $1,000.</p>
+        <a class="src" href="https://ultimatemotorcycling.com/2026/05/22/klim-gt1-expedition-first-look-carbon-koroyd-modular-helmet/" target="_blank" rel="noopener">ultimatemotorcycling.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">6D Helmets <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-05-13" data-brand="6D Helmets">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">6D Helmets</span><span class="date">2026-05-13</span></div>
+        <h3>6D 헬멧스, 5세대 ODS 서스펜션 적용한 오프로드 플래그십 'ATR-3X' 공개</h3>
+        <p class="desc">듀얼스포츠·엔듀로·크로스컨트리·어드벤처 라이딩을 아우르는 6D의 신규 오프로드 플래그십 헬멧. 3K 카본 컴포지트 쉘에 직선·회전 충격을 동시에 관리하는 5세대 옴니디렉셔널 서스펜션(ODS) 기술과 신형 MAX 고글을 결합했다. M/L 사이즈 기준 약 1,400g이며 DOT·ECE 22.06·ACU 인증 기준을 상회하는 성능에 3년 한정 보증을 제공, 가격은 MAX 고글 포함 $995.</p>
+        <a class="src" href="https://www.motorcycle.com/bikes/6d-introduces-the-all-new-atr-3x-44664646" target="_blank" rel="noopener">motorcycle.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Hedon <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-04" data-brand="Hedon">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Hedon</span><span class="date">2026-04</span></div>
+        <h3>영국 프리미엄 브랜드 헤던, 첫 어드벤처 헬멧 'Psilo' 프리오더 개시</h3>
+        <p class="desc">런던 기반 프리미엄 헬멧 브랜드 헤던이 처음 선보이는 어드벤처 라인 모델. 풀카본 쉘에 탈부착 가능한 항균 스웨이드 내장재, 천연 가죽 트림, 아노다이징 황동 하드웨어를 적용한 빈티지 감성의 마감이 특징이며, 밝기에 따라 색이 변하는 포토크로믹 바이저와 응급 탈거형 치크패드를 갖췄고 Quin 충돌 감지 시스템 장착에 대응하도록 설계됨. 3가지 쉘 사이즈로 ECE 22.06·DOT 인증을 획득했으며 가격 $1,199, 2026년 7월 출고 예정.</p>
+        <a class="src" href="https://www.motorcyclenews.com/bike-kit/news/2026-kit-news/april/hedon-psilo-adventure-helmet-pre-order/" target="_blank" rel="noopener">motorcyclenews.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Biltwell <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-04" data-brand="Biltwell">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Biltwell</span><span class="date">2026-04</span></div>
+        <h3>Tahoe — 브랜드 창립 20주년 기념 컬렉션에서 신규 오픈페이스 모델 첫 공개</h3>
+        <p class="desc">2006–2026 창립 20주년을 기념하는 한정판 컬렉션에서 Gringo·Lane Splitter 등 기존 라인과 함께 완전히 새로운 모델 Tahoe를 처음 선보임. 고급 텍스타일 내장재와 기념 마감을 적용했고 DOT 인증을 획득.</p>
+        <a class="src" href="https://hotbike.com/biltwell-20th-anniversary-helmets-new-tahoe-helmet-lane-splitter-gringo-more/" target="_blank" rel="noopener">hotbike.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Nolan <span class="count">1</span></h3>
+    <article class="entry" data-category="tech" data-date="2026-03" data-brand="Nolan">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Nolan</span><span class="date">2026-03</span></div>
+        <h3>X-904 UC — Quin 충돌 감지 센서 통합 스마트 스포츠투어링 헬멧</h3>
+        <p class="desc">Quin Impact Sensor가 비정상적 가속도 변화를 감지하면 GPS 좌표·충격 데이터와 함께 비상연락처에 자동으로 알림을 전송. 급제동 시 강하게 점멸하는 통합 I-ESS LED와 사이즈 M 기준 1500g의 경량 카본 쉘을 적용.</p>
+        <a class="src" href="https://www.motorcycle.com/bikes/news/nolan-launches-x-904-uc-intelligent-helmet-44656618" target="_blank" rel="noopener">motorcycle.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Shark <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-03" data-brand="Shark">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Shark</span><span class="date">2026-03</span></div>
+        <h3>MotoGP 공식 라이선스 헬멧 컬렉션 출시</h3>
+        <p class="desc">MotoGP와 공식 파트너십을 체결하고 최초의 MotoGP 라이선스 헬멧 컬렉션을 공개. FIM 2026 기준 인증을 받은 Aeron GP FIM #2 2종, A2S 스포일러가 빠진 Aeron, Skwal Cup·Skwal Jet Cup 등 총 5개 모델로 구성.</p>
+        <a class="src" href="https://www.motogp.com/en/news/2025/12/16/shark-x-motogp-new-collaboration-creates-the-first-collection-of-motogp-licensed-helmets/822514" target="_blank" rel="noopener">motogp.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Scorpion <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-02-12" data-brand="Scorpion">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Scorpion</span><span class="date">2026-02-12</span></div>
+        <h3>EXO-530i AIR 공개 — 스포일러에 LED 조명을 내장한 보급형 풀페이스 헬멧</h3>
+        <p class="desc">후미 스포일러에 빨강·하양·초록·파랑 중 선택 가능한 LED를 내장해 야간·악천후 시 후방 시인성을 높인 스포츠투어링 헬멧. 박스에 Pinlock MaxVision 인서트를 기본 포함하고 내장형 선바이저(EverClear)를 갖췄으며 가격은 €299.90. 현재 유럽 시장 위주로 판매 중이며 미국 출시는 미정.</p>
+        <a class="src" href="https://www.rideapart.com/news/786988/scorpion-exo-530i-air-specs-features/" target="_blank" rel="noopener">rideapart.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">KYT <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-01-08" data-brand="KYT">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">KYT</span><span class="date">2026-01-08</span></div>
+        <h3>KX-1 "John McGuinness MBE" 레플리카 공개 — 전 세계 1,300개 한정</h3>
+        <p class="desc">아일 오브 맨 TT 최다승 레이서 존 맥기네스의 커리어를 기념한 한정판 레이싱 헬멧으로, 미국 AIMExpo 2026에서 공식 공개. KYT의 플래그십 레이스 쉘 KX-1을 기반으로 전 세계 1,300개만 생산되는 컬렉터스 모델.</p>
+        <a class="src" href="https://kytamericas.com/blogs/news/kyt-announces-official-launch-of-kx-1-john-mcguinness-mbe-replica-helmet" target="_blank" rel="noopener">kytamericas.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">LS2 <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2026-01-05" data-brand="LS2">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">LS2</span><span class="date">2026-01-05</span></div>
+        <h3>Storm III 3세대 스포츠투어링 헬멧 공개 — KPA 쉘로 1600g 경량화</h3>
+        <p class="desc">재설계된 KPA(Kinetic Polymer Alloy) 쉘 적용으로 무게를 1600g까지 낮추고, 대형 상단 에어 인테이크와 친벤트·리어 익스트랙터로 환기 성능을 강화. Pinlock 70 MaxVision 안티포그 인서트를 기본 제공하며 솔리드 컬러 £139.99부터 합리적인 가격으로 2026년 초 출시.</p>
+        <a class="src" href="https://dancingthepolka.com/2026/01/05/ls2-rolls-out-third-generation-of-storm-sport-touring-lid/" target="_blank" rel="noopener">dancingthepolka.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Steelbird <span class="count">1</span></h3>
+    <article class="entry" data-category="tech" data-date="2026-01" data-brand="Steelbird">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">Steelbird</span><span class="date">2026-01</span></div>
+        <h3>Base X 스마트 라이딩 시스템 출시 — Fighter 헬멧에 통합</h3>
+        <p class="desc">세계 최대 헬멧 생산량을 보유한 인도 스틸버드가 Fighter 헬멧 라인에 통합되는 스마트 모듈 Base X를 공개. 블루투스 연결과 Google Assistant·Siri 음성 호출, Glide·Beast·Relax 주행 모드 전환, 커스터마이즈 가능한 후미 표시등, USB-C 충전(최대 48시간 재생)을 지원하며 5,999루피로 책정.</p>
+        <a class="src" href="https://ackodrive.com/news/steelbird-expands-smart-helmet-range-with-launch-of-base-x/" target="_blank" rel="noopener">ackodrive.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">TVS Motor · Aegis Rider <span class="count">1</span></h3>
+    <article class="entry" data-category="tech" data-date="2025-11" data-brand="TVS Motor · Aegis Rider">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag tech">신기술</span><span class="brand">TVS Motor · Aegis Rider</span><span class="date">2025-11</span></div>
+        <h3>공간 고정형 AR HUD 헬멧 공개 — 노턴 브랜드에 적용 예정</h3>
+        <p class="desc">스위스 Aegis Rider와 5년간 공동 개발한 증강현실 헬멧으로, 카본 쉘 안에 마그네틱 바이노큘러 AR 글래스와 마이크로OLED 프로젝터를 내장해 속도·RPM·기어·내비게이션·통화·메시지 등을 시야에 공간 고정 방식으로 표시. 퀄컴 프로세서와 7,000mAh 배터리(4시간 구동), 5MP 액션캠을 갖췄으며 ECE 22.06·DOT 인증을 획득. EICMA 2025에서 최초 공개.</p>
+        <a class="src" href="https://www.rideapart.com/news/779899/tvs-designs-heads-up-display-hud-helmet/" target="_blank" rel="noopener">rideapart.com →</a>
+      </div>
+    </article>
+    </div>
+
+    <div class="brand-group">
+      <h3 class="brand-group-head">Intelligent Cranium Helmets <span class="count">1</span></h3>
+    <article class="entry" data-category="product" data-date="2025-01" data-brand="Intelligent Cranium Helmets">
+      <div class="entry-bar"></div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="tag product">신제품</span><span class="brand">Intelligent Cranium Helmets</span><span class="date">2025-01</span></div>
+        <h3>CES 2025 공개 — AI 기반 360도 시야 + 충돌 감지 헬멧</h3>
+        <p class="desc">360도 카메라 뷰, AI 음성 제어 녹화, 충돌 감지 시 자동 SOS 전송 기능을 갖춘 스마트 헬멧으로 CES 2025에서 공개.</p>
+        <a class="src" href="https://www.techtimes.com/articles/309027/20250110/ces-2025-worlds-smartest-motorcycle-helmet-boasts-ai-tech-360-views-crash-detection.htm" target="_blank" rel="noopener">techtimes.com →</a>
+      </div>
+    </article>
+    </div>
+
+    </div>
+
+    <div class="subtab-panel" id="subtab-cross" data-subtab-panel="cross" hidden>
+    <div class="dd-trends" id="dd-trends">
+      <h3>교차 브랜드 동향</h3>
+      <p class="dd-secondary-lede">6개 브랜드 조사에서 공통으로 관찰된 산업 전반의 흐름 6가지.</p>
+      <div class="dd-trend-list">
+        <div class="dd-trend">
+          <div class="num">01</div>
+          <div>
+            <h4>ECE 22.06이 사실상의 공통 기준선으로 정착</h4>
+            <p>2023년 7월부로 22.05 신규 인증 발급이 중단되고, 2024년 1월부터 EU 신규 판매 헬멧에 22.06이 의무화됨. 조사한 6개 브랜드 전부 2023–24년 사이 플래그십을 22.06으로 재인증했으며, 이제는 차별점이 아니라 신모델 출시의 최소 조건으로 취급됨. <span class="dd-src"><a href="https://www.rideapart.com/features/675535/ece-2206-helmet-standard-explained/" target="_blank" rel="noopener">rideapart.com →</a></span></p>
+          </div>
+        </div>
+        <div class="dd-trend">
+          <div class="num">02</div>
+          <div>
+            <h4>회전충격 완화 기술이 단일 표준 대신 세 갈래 철학으로 분화</h4>
+            <p>Bell은 서드파티 MIPS(2023 Qualifier DLX MIPS → 2025 10-시리즈 → 2026 Moto-10 GP), HJC는 자체 젤 슬립라이너 SLID, Arai는 별도 라이너 없이 R75 셸 형상 + M.O.R.E. 개념으로 대응. Shoei·AGV는 명명된 슬립플레인 없이 ECE 22.06 경사충격 테스트(및 AGV의 경우 FIM 인증)에 의존 — 브랜딩이 아닌 실제 설계 철학 차이.</p>
+          </div>
+        </div>
+        <div class="dd-trend">
+          <div class="num">03</div>
+          <div>
+            <h4>FIM Phase-2 인증(FRHPhe-02)이 오프로드 부문으로 확산</h4>
+            <p>2022년 11월 시작된 FIM 2단계 레이싱 인증이 2025–26년 오프로드/모토크로스 부문에서 2차 확산기를 맞음. 경사·반구형 앤빌 회전충격 테스트와 Skull Fracture Criterion 추가. 2025년 챔피언십 권장, 2026년 의무화. Arai, AGV, HJC, Bell 모두 2025–26년 오프로드 인증 모델을 발표. <span class="dd-src"><a href="https://www.fim-moto.com/en/news/news-detail/article/fim-launches-the-phase-2-of-the-fim-racing-homologation-programme-for-helmets-frhphe-02" target="_blank" rel="noopener">fim-moto.com →</a></span></p>
+          </div>
+        </div>
+        <div class="dd-trend">
+          <div class="num">04</div>
+          <div>
+            <h4>스마트 기능이 후부착형 통신에서 구조 일체형 전자장치로 전환</h4>
+            <p>초기(Shoei Neotec 3의 SENA 호환, HJC i91의 2세대 SMART HJC)는 블루투스 유닛을 셸에 깔끔히 안착시키는 수준이었으나, 2025년 말 Shoei(GT-Air 3 Smart + EyeLights AR HUD)와 Schuberth(C5 ANC + Cardo 능동소음차단)는 디스플레이 엔진·오디오 DSP를 헬멧의 핵심 서브시스템으로 내장 — 이 기간 가장 큰 기술적 전환점.</p>
+          </div>
+        </div>
+        <div class="dd-trend">
+          <div class="num">05</div>
+          <div>
+            <h4>부위별 다층 소재 적층이 플래그십 표준으로 정착</h4>
+            <p>단일 스펙 셸 대신 부위별로 섬유 종류·두께를 달리하는 구조가 보편화. Shoei X-15의 AIM+ 셸(턱·정수리는 두껍게), HJC RPHA 12의 PIM EVO(리넨 포함 5종 섬유), Arai의 Super Fiber + AR Mat + 선택적 Zylon 보강이 대표적. 멀티밀도 EPS(AGV, Arai 최대 10단계, Schuberth Concept 듀얼밀도)도 충격 강도별 에너지 흡수 튜닝의 표준 관행이 됨.</p>
+          </div>
+        </div>
+        <div class="dd-trend">
+          <div class="num">06</div>
+          <div>
+            <h4>레이싱발 공력 기술이 투어링 라인까지 확산</h4>
+            <p>Shoei는 자체 풍동에서 X-15를 218mph 이상으로 테스트, Bell은 Race Star Flex DLX·Moto-10 GP 카본 셸을 풍동/레이스 플랫폼에서 다듬고, AGV Pista GP RR의 Pro Spoiler·윙 벤트는 MotoGP에서 파생, HJC RPHA 12의 벤틸레이션·스포일러도 MotoGP 프로그램 기반, Schuberth는 E2(어드벤처/투어링)의 조절식 바이저를 풍동에서 튜닝. 한때 레이싱 전용이던 공력·환기 엔지니어링이 이제 투어링/ADV 모델의 판매 포인트로도 제시됨.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dd-secondary" id="dd-secondary">
+      <h3>보조 브랜드</h3>
+      <p class="dd-secondary-lede">시간 여유로 가볍게 확인한 브랜드 — 주요 6개사만큼 깊이 조사되지 않음.</p>
+      <div class="dd-secondary-grid">
+        <div class="dd-sec-card">
+          <h4>Nolan</h4>
+          <p>2024.11.05 "Collection 2025" 공개 — 스트리트웨어/자동차 디자인 영향의 스타일 개편. N120-1은 Nolan 최초로 180° 회전형 플립백 턱부 메커니즘 탑재.</p>
+          <a href="https://moto.motorionline.com/en/new-nolan-helmets-2025-elegance-and-cutting-edge-technology/" target="_blank" rel="noopener">motorionline.com →</a>
+        </div>
+        <div class="dd-sec-card">
+          <h4>X-Lite (Nolan Group)</h4>
+          <p>X-1005 Ultra Carbon이 비교 테스트에서 전반적으로 양호했으나 무게·소음 지적. 이번 조사에서 별도 명명된 신규 안전기술은 확인되지 않음.</p>
+          <a href="https://www.championhelmets.com/us/magazine/post/Top-10-Best-Modular-Helmets-of-2024-Review-and-Road-Test" target="_blank" rel="noopener">championhelmets.com →</a>
+        </div>
+        <div class="dd-sec-card">
+          <h4>Scorpion (EXO)</h4>
+          <p>2025년 FIM FRHPhe-02 인증 오프로드 헬멧 보유 브랜드 목록에 포함.</p>
+          <a href="https://www.fim-moto.com/en/news/news-detail/article/more-helmets-fim-homologated-under-frhphe-02" target="_blank" rel="noopener">fim-moto.com →</a>
+        </div>
+        <div class="dd-sec-card">
+          <h4>LS2</h4>
+          <p>Advant X Carbon이 실드 부문에서 우수한 평가와 가성비로 언급됨. 별도 안전기술 브랜딩은 확인되지 않음.</p>
+          <a href="https://www.championhelmets.com/us/magazine/post/Top-10-Best-Modular-Helmets-of-2024-Review-and-Road-Test" target="_blank" rel="noopener">championhelmets.com →</a>
+        </div>
+        <div class="dd-sec-card gap">
+          <h4>Icon</h4>
+          <p>이번 조사에서 2023–26 디자인/기술 관련 유의미한 내용을 찾지 못함 — 확인된 공백으로 표기.</p>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  </section>
+
+<footer>
+    <p>이 아카이브는 매일 자동 검색으로 갱신됩니다. "업계동향"·"브랜드별 이슈정리" 탭에 새 항목이 날짜순으로 계속 추가되며 기존 항목은 삭제되지 않습니다 · 최초 백필: 2026-08-11 · 탭 구조 개편: 2026-09-08 · 2탭 + 브랜드 서브탭 통합 개편: 2026-09-08</p>
+    <p><b>브랜드별 이슈정리 방법론 —</b> Shoei·Arai·AGV·Bell·HJC·Schuberth·Alpinestars 7개 브랜드는 공식 제조사 홈페이지를 1차 출처로 직접 방문·분석하고, 접근이 막히거나 발행일이 불명확한 경우 RevZilla·Cycle News·RideApart·Ultimate Motorcycling·Motorcyclenews.com·Visordown·FIM 공식 발표 등 업계 매체로 교차 검증합니다. 공식 사이트 접근이 어려웠거나 날짜별 뉴스 아카이브가 없는 브랜드는 해당 섹션에 커버리지 노트로 명시했습니다. 그 외 브랜드의 신제품·뉴스는 보유 항목 수에 따라 개별 서브탭 또는 "기타 브랜드" 서브탭으로 분류했습니다 · Alpinestars 추가: 2026-09-08 · 브랜드별 이슈정리 통합(신제품·기사·심층분석 병합): 2026-09-08</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var btns = document.querySelectorAll('.tab-btn');
+  var panels = {
+    trends: document.getElementById('tab-trends'),
+    brands: document.getElementById('tab-brands')
+  };
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = btn.getAttribute('data-tab');
+      btns.forEach(function(b){
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+      });
+      Object.keys(panels).forEach(function(key){
+        if (panels[key]) panels[key].hidden = (key !== target);
+      });
+    });
+  });
+
+  var subbtns = document.querySelectorAll('.subtab-btn');
+  var subpanels = {};
+  document.querySelectorAll('.subtab-panel').forEach(function(p){
+    subpanels[p.getAttribute('data-subtab-panel')] = p;
+  });
+  subbtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = btn.getAttribute('data-subtab');
+      subbtns.forEach(function(b){
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+      });
+      Object.keys(subpanels).forEach(function(key){
+        subpanels[key].hidden = (key !== target);
+      });
+    });
+  });
+})();
+</script>
+
+</body></html>
